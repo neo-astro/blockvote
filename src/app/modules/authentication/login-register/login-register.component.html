@@ -1,0 +1,113 @@
+
+
+<div class="container w-75 h-75 m-auto mt-5 mb-5"  #container id="contentr">
+
+		<div class="form-container sign-up-container">
+			<form [formGroup]="registerForm"  (ngSubmit)="registerUser(registerForm.value)">
+	
+				<h1 class="color-primary fw-bold fs-1 mb-4 text-capitalize">Registrate gratis</h1>
+	
+				<div class="container-fluid d-flex justify-content-around">
+
+					<div class="form-floating">
+						<input type="text" formControlName="firstNameRegister" class="form-control input " #inpFirstNameRegister id="floatingInputNombres" placeholder="Calos Josue">
+						<label for="floatingInputNombres">Nombres</label>
+					</div>
+
+					<div class="form-floating d-flex">
+						<input type="text" formControlName="lastNameRegister" class="form-control input " #inpLastNameRegister id="floatingInputLastName" placeholder="Calos Josue">
+						<label for="floatingInputLastName">Apellidos</label>
+					</div>
+
+				</div>
+	
+	
+				<div class="container-fluid d-flex justify-content-around"   >
+					<div class="form-floating">
+						<input type="email"  style="min-width: 480px;" id="floatingEmailRegister"  #emailRegister formControlName="emailRegister" placeholder="asd@hotmail.com" class="form-control input"  />
+						<label for="floatingEmailRegister">email</label>
+					</div>
+				</div>
+
+
+				<div class="container-fluid d-flex justify-content-around"   >
+					<div class="form-floating">
+						<input type="password"  formControlName="passwordRegister" class="form-control input" id="floatingInputPasswordRegister1" placeholder="name@example.com">
+						<label for="floatingInputPasswordRegister1">Contraseña</label>
+					</div>
+
+					<div class="form-floating">
+						<input type="password"  formControlName="confirm" class="form-control input" id="floatingInputConfirm" placeholder="name@example.com">
+						<label for="floatingInputConfirm">Confirmar Contraseña</label>
+					</div>
+	
+				</div>
+
+
+				<!-- <div class="container-fluid d-flex justify-content-around">
+
+					<div class="form-floating">
+						<input type="password" formControlName="passwordRegister" class="form-control input"  id="floatingInputPasswordRegister1">
+						<label for="floatingInputPasswordRegister1">Contraseña</label>
+					</div>
+
+					<div class="form-floating">
+						<input type="password" formControlName="confirm" class="form-control input" id="floatingInputConfirm"  >
+						<label for="floatingInputConfirm">Confirmar Password</label>
+					</div>
+	
+
+				</div> -->
+	
+				
+	
+				<div class="mt-4 d-flex justify-content-center align-content-center">
+					<input   type="submit" [disabled]="!registerForm.valid" class="m-auto btn__secondary" value="Registrarse">
+				</div>	
+			</form>
+		</div>
+	
+		<div class="form-container sign-in-container">
+			<form [formGroup]="loginForm"  (ngSubmit)="loginUser(loginForm.value)" id="formSignIn">
+				<h1 class="color-primary fw-bold fs-1 mb-4 text-capitalize">¡Inicia sesión ahora!</h1>
+								
+				<div class="form-floating">
+					<input type="email" formControlName="email" class="form-control input"  #inputEmailLogin id="floatingInputEmail" placeholder="name@example.com">
+					<label for="floatingInputEmail">Email address</label>
+				</div>
+	
+				<div class="form-floating">
+					<input type="password"  formControlName="password" class="form-control input" id="floatingInputPassword" placeholder="name@example.com">
+					<label for="floatingInputPassword">Contraseña</label>
+				</div>
+
+				<a [routerLink]="['/RecoveryPassword']" class="w-50 color-primary recovery">¿Olvidaste tu contraseña?</a>
+	
+				<div class="d-flex justify-content-center align-content-center">
+					<input   type="submit" #btnSignIn id="btnSignIn" [disabled]="!loginForm.valid" class="m-auto color-primary btn__secondary"  [ngClass]="{'fw-bold': loginForm.valid, 'text-muted': !loginForm.valid}"  value="Iniciar sesión">
+				</div>
+				
+			</form>
+		</div>
+	
+		<div class="overlay-container">
+			<div class="overlay">
+				<div class="overlay-panel overlay-left">
+					<h1>¡Tienes una cuenta!</h1>
+					<p>Inicia sesión ahora y realiza tus propios procesos electorales y votaciones</p>
+					<button class="ghost btn-move" #signIn>Inisiar sesión</button>
+				</div>
+				<div class="overlay-panel overlay-right">
+					<h1>¡Eres nuevo! Registrate ahora</h1>
+					<p class="text-center">Ingresa tu informacion personal y disfruta de nuestros servicios</p>
+					<button class="ghost btn-move" #signUp>Registrarse</button>
+	
+				</div>
+			</div>
+		</div>
+	</div>
+				<!-- <div >
+					<em  class="text-center" *ngIf="validateControl('email') && hasError('email', 'required')"><p>Campo requerido</p></em>
+					<em class="text-center" *ngIf="validateControl('password') && hasError('password', 'required')"><p>La contraseña es requerida</p></em>
+				</div>
+				 -->

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pasos con Formularios</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  .steps {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+  }
+  .step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+  }
+  .step:before {
+    content: attr(data-step);
+    display: block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    background-color: #fff;
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+  }
+  .step.active:before {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+  }
+  form {
+    display: none;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  form.active {
+    display: block;
+  }
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="steps">
+  <div class="step active" data-step="1">Paso 1</div>
+  <div class="step" data-step="2">Paso 2</div>
+  <div class="step" data-step="3">Paso 3</div>
+</div>
+
+<form id="form-step-1" class="active">
+  <h2>Paso 1</h2>
+  <label for="input-step-1">Campo del Paso 1:</label>
+  <input type="text" id="input-step-1" name="input-step-1" required>
+  <button onclick="nextStep()">Siguiente</button>
+</form>
+
+<form id="form-step-2">
+  <h2>Paso 2</h2>
+  <label for="input-step-2">Campo del Paso 2:</label>
+  <input type="text" id="input-step-2" name="input-step-2" required>
+  <button onclick="prevStep()">Anterior</button>
+  <button onclick="nextStep()">Siguiente</button>
+</form>
+
+<form id="form-step-3">
+  <h2>Paso 3</h2>
+  <label for="input-step-3">Campo del Paso 3:</label>
+  <input type="text" id="input-step-3" name="input-step-3" required>
+  <button onclick="prevStep()">Anterior</button>
+  <button type="submit">Finalizar</button>
+</form>
+
+<script>
+  function nextStep() {
+    let currentStep = document.querySelector('.step.active');
+    let currentForm = document.querySelector('form.active');
+
+    currentStep.classList.remove('active');
+    currentForm.classList.remove('active');
+
+    currentStep.nextElementSibling.classList.add('active');
+    currentForm.nextElementSibling.classList.add('active');
+  }
+
+  function prevStep() {
+    let currentStep = document.querySelector('.step.active');
+    let currentForm = document.querySelector('form.active');
+
+    currentStep.classList.remove('active');
+    currentForm.classList.remove('active');
+
+    currentStep.previousElementSibling.classList.add('active');
+    currentForm.previousElementSibling.classList.add('active');
+  }
+</script>
+
+</body>
+</html>

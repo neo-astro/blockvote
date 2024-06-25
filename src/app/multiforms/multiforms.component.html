@@ -1,0 +1,131 @@
+<div class="d-flex container-fluid justify-content-center align-content-center" >
+  <form [formGroup]="Empregister" (ngSubmit)="HandleSubmit()" class="w-75" style="min-height: 450px;">
+    <mat-stepper [linear]="isLinear" style="background-color: F6F6F6F;  	box-shadow: 0 1px 2px rgba(235, 235, 235, 0.25), 
+			0 10px 10px rgba(0,0,0,0.22); border-radius: 18px;" #stepper>
+        
+        <!-- <mat-step [stepControl]="tituloForm">
+
+          <div formGroupName="titulo" class="text-center">
+
+            <ng-template matStepLabel>Titulo</ng-template>
+        
+            <mat-form-field appearance="fill" class="w-50" >
+              <mat-label >Titulo del proceso</mat-label>
+              <input matInput   placeholder="Elecciones precidenciales" formControlName="tituloName"  >
+              <mat-error>Campo requerido</mat-error>
+
+            </mat-form-field>
+    
+
+        </div>
+        <div class="text-center">
+          <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+        </div>
+        </mat-step>
+
+
+        
+        <mat-step [stepControl]="candidatosForm"  label="Candidatos">
+          <div formGroupName="candidatos" class="text-center">
+            <mat-form-field appearance="fill" class="w-50">
+              <mat-label>Nombre candidato</mat-label>
+              <input matInput formControlName="nombre" placeholder="nombre" required>
+              <mat-error>Campo requerido</mat-error>
+            </mat-form-field>
+
+
+            <div class="mb-5">
+              <mat-label>
+                <app-upload-file (fileSelected)="onFileSelected($event)"></app-upload-file>
+                <mat-form-field class="w-50  borderNone text-center">
+                  <input #fotoCandidato type="text" [ngModel]="CandidatoFileName"  class="" matInput formControlName="fotoCandidato">
+                  <mat-error>Foto de candidato requerida</mat-error>
+                </mat-form-field>              </mat-label>
+            </div>
+
+
+
+            <mat-form-field appearance="fill"  class="w-50">
+                <mat-label>Nombre Partido Político</mat-label>
+                <input matInput formControlName="nombrePartidoPolitico" placeholder="Partido Político" required>
+                <mat-error>Campo requerido</mat-error>
+            </mat-form-field>
+
+            <div class="mb-5">
+              <mat-label>
+                <app-upload-file (fileSelected)="onFileSelectedPartido($event)"></app-upload-file>
+                <mat-form-field class="w-50 borderNone text-center">
+                  <input #fotoPartido type="text" [ngModel]="PartidoPoliticoFileName" class="" matInput formControlName="fotoPartidoPolitico">
+                  <mat-error>Foto del Partido P. requerida</mat-error>
+                </mat-form-field>
+              </mat-label>
+            </div>
+
+
+        
+
+            <div>
+              <button mat-raised-button color="primary" matStepperPrevious>Atras</button> | 
+              <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+            </div>
+        </div>
+        </mat-step> -->
+
+
+
+
+        <mat-step [stepControl]="votantesForm" label="Votantes">
+            <div formGroupName="votantes" class="text-center">
+              <mat-form-field appearance="fill"  class="w-50">
+                <label>Subir archivo excel </label>
+                <input type="file" class="file-input" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                (change)="onFileSelectedExcel($event)" #InputFileExcel>
+            
+                <div class="file-upload">
+            
+            
+                  <button mat-mini-fab color="primary" class="upload-btn"
+                  (click)="InputFileExcel.click()">
+                      <mat-icon>attach_file</mat-icon>
+                  </button>
+                </div>
+            
+                <input matInput formControlName="excel" class="visually-hidden" [ngModel]="inputExcel" required>
+                <mat-error>Archivo requerido</mat-error>
+              </mat-form-field>
+           
+              <div>
+                <button mat-raised-button color="primary" matStepperPrevious>Atras</button> | 
+                <button mat-raised-button  >Finalizar</button>
+              </div>
+          </div>
+        </mat-step>
+
+        <mat-step [stepControl]="configuracionForm" label="Configuracion">
+          <div formGroupName="configuracion">
+            <mat-form-field appearance="fill">
+              <mat-label>Street</mat-label>
+              <input matInput formControlName="street" placeholder="street"
+                     required>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>City</mat-label>
+                <input matInput formControlName="city" placeholder="City"
+                       required>
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>PIN</mat-label>
+                <input matInput formControlName="pin" placeholder="Pin"
+                       required>
+              </mat-form-field>
+            <div>
+              <button mat-raised-button color="primary" matStepperPrevious>Atras</button> | 
+              <button mat-raised-button  >Finalizar</button>
+            </div>
+        </div>
+        </mat-step>
+  
+    
+      </mat-stepper>
+    </form>
+</div>

@@ -1,0 +1,13 @@
+<div class="image-upload-container">
+  <input type="file" #fileInput (change)="onImageSelected($event)" accept="image/*" style="display: none;">
+  <button type="button" class="btn bg-primary-color btn-action  text-white primary-color text-center" (click)="fileInput.click()">
+    <div class="d-flex">
+      <mat-icon class="">attach_file</mat-icon>
+      Subir Imagen 
+    </div>
+  </button>
+  <div *ngIf="imagePreview">
+    <img [src]="imagePreview" width="150px" height="150px" alt="Vista previa de la imagen" class="image-preview">
+    <p class="fs-mini text-center primary-color container-fluid">{{ imageName }}</p>
+  </div>
+</div>

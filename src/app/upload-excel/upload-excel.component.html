@@ -1,0 +1,16 @@
+<!-- <mat-form-field>
+    <input id="fileSelect" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+</mat-form-field> -->
+
+    <input type="file" class="file-input" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+    (change)="onFileSelected($event)" #fileUpload>
+
+    <div class="file-upload">
+
+    {{fileName || "No file uploaded yet."}}
+
+    <button mat-mini-fab color="primary" class="upload-btn"
+    (click)="fileUpload.click()">
+        <mat-icon>attach_file</mat-icon>
+    </button>
+    </div>

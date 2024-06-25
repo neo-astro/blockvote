@@ -1,0 +1,118 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel&family=Fira+Code:wght@300&display=swap');
+*{
+  font-family: 'Fira Code', monospace;
+  
+}
+
+.primary-color{
+  color:#7c82ff
+};
+
+
+
+em{
+  color: #e71515;
+  font-weight: bold;
+}
+
+.ng-invalid.ng-touched{
+  border-color: red;
+}
+
+.card{
+  margin-top: 10px;
+  background-color: #fff;
+  box-shadow: 1px 1px 1px #cabcbc;
+}
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+body {
+  --sb-track-color: #dcdddf;
+  --sb-thumb-color: #ffffff;
+  --sb-size: 12px;
+}
+
+body::-webkit-scrollbar {
+  width: var(--sb-size)
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 3px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 3px;
+  
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  body {
+    scrollbar-color: var(--sb-thumb-color)
+                     var(--sb-track-color);
+  }
+}
+
+input:focus {
+  border-color: #7c82ff !important;
+}
+input:focus-visible {
+  border-color: #7c82ff !important;
+}
+input:focus-within {
+  border-color: #7c82ff !important;
+}
+input::-moz-focus-inner {
+  border-color: #7c82ff !important;
+}
+input::-moz-focus-outer {
+  border-color: #7c82ff !important;
+}
+
+@media screen and(max-width: 768px) {
+	#div2 {
+    background-color: #c18af9;
+		width: 200px !important;
+	}
+	/* #container {
+		padding: 0%;
+		margin: 0%;
+		width: 100vw;
+		height: 100vh;
+		background-color: rgb(19, 76, 95);
+	} */
+	}
+
+.fs-mini {
+  font-size: 12px;
+}
+
+
+.bg-primary-color {
+  background-color: #7c82ff; /* Aquí definimos el color base */
+}
+
+
+
+.bg-white {
+  background-color: white;
+}
+
+
+
+.primary-color {
+color: #7c82ff; /* Aquí definimos el color base */
+}
+
+.btn-action:hover {
+  font-weight: bold;
+  background-color: #7c82ff;
+}
+
+

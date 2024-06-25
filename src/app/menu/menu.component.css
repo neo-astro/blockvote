@@ -1,0 +1,67 @@
+.active{
+    color: #5c63e8;
+}
+
+.color-white {
+    color: rgb(255, 255, 255);
+}
+
+a:hover, .svg:hover {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+
+
+
+.c-primary{
+    color: #7c82ff;
+}
+
+.c-primary:hover{
+    color: #5c63e8;
+}
+
+.color-primary {
+    background-color: #7c82ff;
+}
+
+.btn-link {
+    width: 150px;
+    margin: 0 4px;
+}
+
+a::after{
+    display: none;
+}
+
+.dropdown:hover>.dropdown-menu {
+    display: block;
+    background-color: transparent;
+    border: none;
+  }
+  
+.dropdown>.dropdown-toggle:active {
+pointer-events: none;
+}
+
+.navbar-transparent {
+    background-color: rgb(124, 130, 255, 0.7) !important;
+}
+
+
+@media screen and (min-width : 200){
+    .collapse{
+        background-color: antiquewhite;
+    }
+}
+
+@media screen and (max-width : 500){
+    .collapse{
+        background-color: rgb(128, 99, 62);
+    }
+}
+
+.dropdown-item:hover {
+    background-color: transparent;
+}
