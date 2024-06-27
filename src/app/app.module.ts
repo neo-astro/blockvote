@@ -48,6 +48,8 @@ import { MultiformsComponent } from './multiforms/multiforms.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
 import { UploadExcelComponent } from './upload-excel/upload-excel.component';
 import { QrAccessComponent } from './qr-access/qr-access.component';
+
+
 export function tokenGetter() {
   return localStorage.getItem("token");
 }
@@ -94,7 +96,6 @@ export function tokenGetter() {
     MatInputModule,
     MatButtonModule,
 
-
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -103,9 +104,12 @@ export function tokenGetter() {
       { path: 'home', component: HomeComponent },
       { path: 'eleccion', component:EleccionComponent,canActivate: [AuthGuard]},
       { path: 'participantes', component:ParticipantesComponent,canActivate: [AuthGuard]},
-      { path: 'votacion', component:VotacionComponent,canActivate: [AuthGuard]},
       { path: 'resultados', component:ResultadosComponent,canActivate: [AuthGuard]},
       { path: 'xd', component:UploadExcelComponent,canActivate: [AuthGuard]},
+      { path: 'img', component:UploadFileComponent,canActivate: [AuthGuard]},
+      { path: 'votacion', component:QrAccessComponent},
+      { path: 'votacion/votar', component:VotacionComponent},
+      { path: 'resultados', component:ResultadosComponent},
 
 
       { path: 'authentication', loadChildren: () => import('./modules/authentication/authentication.module').then(m => m.AuthenticationModule) },

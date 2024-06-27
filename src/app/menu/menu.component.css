@@ -49,19 +49,18 @@ pointer-events: none;
     background-color: rgb(124, 130, 255, 0.7) !important;
 }
 
+@media screen and (min-width <= 200){
 
-@media screen and (min-width : 200){
-    .collapse{
-        background-color: antiquewhite;
-    }
+
+
 }
 
-@media screen and (max-width : 500){
-    .collapse{
-        background-color: rgb(128, 99, 62);
-    }
+@media screen and (width >= 500){
+
+
 }
 
 .dropdown-item:hover {
     background-color: transparent;
 }
+

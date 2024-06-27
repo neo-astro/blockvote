@@ -12,6 +12,8 @@ export class MultiformsComponent {
   CandidatoFileName: string = '';
   PartidoPoliticoFileName: string = '';
 
+  listaCandidatos : ListaCandidatos[] = []
+
   @ViewChild('fotoCandidato') inputCandidatoFoto! : ElementRef
   @ViewChild('fotoPartido') inputPartidoFoto! : ElementRef
   @ViewChild('InputFileExcel') inputputFileExcel! : ElementRef
@@ -102,4 +104,14 @@ export class MultiformsComponent {
     this.PartidoPoliticoFileName = fileName
     alert(this.inputPartidoFoto.nativeElement.value)
   }
+
+
+}
+
+
+export class ListaCandidatos{
+  nombre:string
+  nombrePartidoPolitico:string
+  fotoCandidato:string
+  fotoPartidoPolitico:string
 }

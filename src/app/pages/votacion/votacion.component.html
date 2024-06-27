@@ -1,1 +1,51 @@
-<p>votacion works!</p>
+<p>{{timeValidoVotar}} time </p>
+<p>{{votaOrNo}} vota </p>
+
+<div *ngIf="votaOrNo == true && timeValidoVotar == true; else NoVota">
+
+  <div class="d-flex">
+    <p>Email: {{ email }}</p>
+    <p>ID Proceso: {{ idProceso }}</p>
+    <p>Secret Key: {{ secretKey }}</p>
+  </div>
+
+  <form (submit)="enviarVoto($event)">
+    <div *ngFor="let candidato of resCandidatos; let i = index" class="w-75 m-auto">
+      <div class="w-75 mt-5 m-auto" style="border-radius: 20px; background: #ffffff; box-shadow: 6px -2px 12px #cccccc, -10px 8px 12px #ededef, -6px 6px 12px #ededef;">
+        <div class="text-center m-auto">
+          <div class="d-flex m-auto">
+            <img [src]="'https://localhost:5001/imagenes/' + candidato.candidato.fotoCandidato" style="width: 50%;border-top-left-radius:20px;" alt="foto candidato">
+            <img [src]="'https://localhost:5001/imagenes/' + candidato.candidato.fotoPartidoPolitico" style="width: 50%; border-top-right-radius: 20px" alt="foto candidato">
+          </div>
+          <div class="row mt-3">
+            <p class="col-6 fw-bold primary-color text-capitalize fs-4">{{candidato.candidato.nombre}}</p>
+            <p class="col-6 fw-bold primary-color text-capitalize fs-4">{{candidato.candidato.nombrePartidoPolitico}}</p>
+          </div>
+        </div>
+        <div class="text-center">
+          <input class="form-check-input mb-4" [id]="candidato.candidato.nombre + '#' + candidato.idProcesoElectoral + '#' + candidato.candidato.nombrePartidoPolitico" style="min-width: 75px; min-height: 75px;" type="checkbox" [checked]="selectedCandidato === candidato" (change)="onCheckboxChange(candidato)">
+        </div>
+      </div>
+    </div>
+    <input type="submit" value="enviar">
+  </form>
+</div>
+
+<ng-template #NoVota>
+  <div class="container-fluid w-75 h-50 m-auto text-center d-flex flex-wrap" style="min-height: 70vh;">
+    <div *ngIf="votaOrNo == false">
+      <img src="../../../assets/img/noVota.png" class="m-auto" style="height: 40vh; width: 25vw;" alt="imagen no vota">
+      <p class="m-auto primary-color fw-bold h5">¡Ops, parece que no tienes ningún proceso pendiente para votar!</p>
+    </div>
+    <div *ngIf="timeValidoVotar == false" class="container-fluid w-75 h-50 m-auto text-center d-flex flex-wrap">
+      <img src="../../../assets/img/timeOut.png" class="m-auto" style="height: 40vh; width: 25vw;" alt="imagen fuera de horario para votar">
+      <p class="m-auto primary-color fw-bold h5">¡No disponible, revisa el horario de votación en tu correo!</p>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #FueraTiempo>
+  <div class="container w-75 h-50">
+    <img src="../../../assets/img/timeOut.png" style="max-height: 30vh; max-width: 40vw;" alt="imagen fuera de horario para votar">
+  </div>
+</ng-template>

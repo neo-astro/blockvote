@@ -104,10 +104,9 @@
 
 
 <nav class="navbar navbar-expand-lg py-1 container-fluid  fixed-top color-primary" id="navbar" #navbar >
-  <div class="container-fluid row">
+  <div class="container-fluid ">
 
-    <div class="col-3">
-      <div class="navbar-nav" style="margin-left: 10px;">
+      <div class="navbar-nav col-3" style="margin-left: 10px;">
         <a class="navbar-brand d-flex" [routerLink]="['/home']" routerLinkActive="active"
         [routerLinkActiveOptions]="{exact: true}"> 
         
@@ -119,17 +118,17 @@
             </div>
           </div>
           
-          <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
-          [attr.aria-expanded]="!isCollapsed" aria-controls="collapseNav">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-  
-        </a>
-      </div>
 
-    </div>
-    
-    <div class="no-collapse col-6" id="navbarResponsive" >
+        </a>
+        
+      </div>
+      <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
+      [attr.aria-expanded]="!isCollapsed" aria-controls="collapseNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="no-collapse optionMenu col-6 "  id="navbarResponsive" >
       <ul class="navbar-nav justify-content-center" >
       
         <li class="nav-item dropdown">
@@ -183,15 +182,41 @@
             </div>
           </div>
         </li>
+
+        <li class="nav-item dropdown ">
+          <a class="color-white nav-link dropdown-toggle"  id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Consultas
+          </a>
+          <div class="dropdown-menu position-absolute" style="min-width: 350px;margin-left: -150px;"   aria-labelledby="navbarDropdownMenuLink">
+            <div class="row mt-2 rounded-1" style="border-radius: 17px;
+            background: #ffffff;
+            box-shadow:  3px 3px 12px #e6e6e6,
+                        -3px -3px 12px #e2e2e2;" >
+
+              <div class="col-5 m-auto p-0">
+                
+                  <img  class="m-0 p-0 m-auto" src="../../assets/img/image1.png" width="175px" height="150px" alt="">
+                
+              </div>              
+
+              <div class="col-7 m-auto ">
+                <a class="c-primary dropdown-item text-center" [routerLink]="['resultados']">lecciones</a>
+                <a class="c-primary dropdown-item text-center" [routerLink]="['resultados']">Resultados elecciones</a>
+              </div>
+
+            </div>
+          </div>
+        </li>
+
       </ul>
     </div>
 
 
 
-    <div class="col-3">
-      <div class="collapse navbar-collapse navbar-nav justify-content-end" id="collapseNav" [collapse]="!isCollapsed" [isAnimated]="true">
-        <ul class="navbar-nav "  *ngIf=" !currentRoute.trim().startsWith('/authentication/') ; else NavBtnReturn">
+      <div class="collapse navbar-collapse navbar-nav justify-content-end col-3" id="collapseNav" [collapse]="!isCollapsed" [isAnimated]="true">
+        <ul class="navbar-nav"  *ngIf=" !currentRoute.trim().startsWith('/authentication/') ; else NavBtnReturn">
 
+          <div class="m-auto">
             <li class="nav-item" *ngIf="!isUserAuthenticated">
               <a class="bg-white c-primary btn btn-link nav-link"[routerLink]="['/authentication/' + 'login']" routerLinkActive="active" 
                 [routerLinkActiveOptions]="{exact: true}">
@@ -199,7 +224,8 @@
                 Acceder
               </a>
             </li>
-  
+          </div>
+
   
             <li class="nav-item" *ngIf="!isUserAuthenticated">
               <a class="bg-white c-primary btn btn-link nav-link" [routerLink]="['/authentication/' + 'register']" routerLinkActive="active" 
@@ -217,7 +243,6 @@
 
         </ul>
 
-    </div>
 
     </div>
 

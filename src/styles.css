@@ -32,9 +32,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 body {
-  --sb-track-color: #dcdddf;
-  --sb-thumb-color: #ffffff;
-  --sb-size: 12px;
+  --sb-track-color: #484848;
+  --sb-thumb-color: #cfcfcf;
+  --sb-size: 9px;
 }
 
 body::-webkit-scrollbar {
@@ -115,4 +115,61 @@ color: #7c82ff; /* Aquí definimos el color base */
   background-color: #7c82ff;
 }
 
+
+.xd , .xd>*  {
+  position: none !important;
+  padding: none !important;
+}
+#reader__dashboard_section , #reader__dashboard,  #reader__dashboard > #reader__dashboard_section , .xd > #reader__dashboard > #reader__dashboard_section , #reader__dashboard >* {
+  width: 0% !important;
+  padding: 0 !important;
+  text-align: center !important;
+  padding: none !important;
+
+  visibility: hidden !important;
+}
+
+#html5-qrcode-button-camera-stop{
+  visibility: hidden !important ;
+  padding: none !important;
+
+}
+
+.xd {border: none !important;}
+
+
+#qr-shaded-region, video {
+  border-radius: 18px;
+}
+
+
+#qr-shaded-region {
+  width: 100%;
+  border-width: 25px !important;
+}
+
+
+
+@media screen and (max-width : 500px) {
+  .optionMenu {
+  }
+}
+
+@media screen and (max-width : 990px) {
+  .optionMenu{
+    background-color: #d32114;
+    display: none;
+  }
+  .collapseOption{
+    margin: auto;
+    text-align: center;
+  }
+}
+
+
+
+.form-check-input:checked {
+  background-color: #7c82ff !important;
+  border-color: #7c82ff !important;
+}
 
