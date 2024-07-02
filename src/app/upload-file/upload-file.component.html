@@ -1,13 +1,21 @@
+<!-- upload-file.component.html -->
 <div class="image-upload-container">
-  <input type="file" #fileInput (change)="onImageSelected($event)" accept="image/*" style="display: none;">
+  <input type="file" #fileInput (change)="onImageSelected($event)" (click)="resete()" accept="image/*" style="display: none;">
+
   <button type="button" class="btn bg-primary-color btn-action  text-white primary-color text-center" (click)="fileInput.click()">
-    <div class="d-flex">
-      <mat-icon class="">attach_file</mat-icon>
-      Subir Imagen 
+    <div class="d-flex ">
+      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-file-earmark-image m-auto p-0 mx-1" viewBox="0 0 16 16">
+        <path d="M6.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+        <path d="M14 14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zM4 1a1 1 0 0 0-1 1v10l2.224-2.224a.5.5 0 0 1 .61-.075L8 11l2.157-3.02a.5.5 0 0 1 .76-.063L13 10V4.5h-2A1.5 1.5 0 0 1 9.5 3V1z"/>
+      </svg>Subir 
     </div>
   </button>
-  <div *ngIf="imagePreview">
-    <img [src]="imagePreview" width="150px" height="150px" alt="Vista previa de la imagen" class="image-preview">
+  
+  <div *ngIf="imagePreview && mostrarImg === true" class="mt-4">
+    <img [src]="imagePreview" width="100px" height="100px" alt="Vista previa de la imagen" class="image-preview rounded-circle">
     <p class="fs-mini text-center primary-color container-fluid">{{ imageName }}</p>
   </div>
+
 </div>
+
+

@@ -1,16 +1,5 @@
-<form action="https://localhost:5001/api/eleccion/subir" method="post" enctype="multipart/form-data">
-    <!-- Para subir imágenes .png o .jpg -->
-    <div>
-      <label for="imgUpload">Subir imagen (.png, .jpg):</label>
-      <input type="file" id="imgUpload" name="imgUpload" accept=".png, .jpg">
-    </div>
-  
-    <!-- Para subir archivo .csv -->
-    <div>
-      <label for="csvUpload">Subir archivo .csv:</label>
-      <input type="file" id="csvUpload" name="csvUpload" accept=".csv">
-    </div>
-  
+<form action="https://localhost:5001/api/eleccion/registrarProceso" method="post">
+    <input type="file" id="file" >
     <button type="submit">Enviar</button>
   </form>
   

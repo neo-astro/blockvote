@@ -29,5 +29,7 @@ export class EleccionVotarService {
 
     return this.http.post<any>('https://localhost:5001/api/eleccion/candidatos', data, {headers: headers});
   }
-  // enviarSufragio() {}
+
+
+
 }

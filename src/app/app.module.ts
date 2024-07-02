@@ -48,6 +48,8 @@ import { MultiformsComponent } from './multiforms/multiforms.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
 import { UploadExcelComponent } from './upload-excel/upload-excel.component';
 import { QrAccessComponent } from './qr-access/qr-access.component';
+import { PipeFullText } from './shared/helpers/PipeFullText';
+import { ProcesosComponent } from './pages/procesos/procesos.component';
 
 
 export function tokenGetter() {
@@ -56,6 +58,7 @@ export function tokenGetter() {
 
 @NgModule({
   declarations: [
+    PipeFullText,
     AppComponent,
     HomeComponent,
     MenuComponent,
@@ -71,7 +74,8 @@ export function tokenGetter() {
     MultiformsComponent,
     UploadFileComponent,
     UploadExcelComponent,
-    QrAccessComponent
+    QrAccessComponent,
+    ProcesosComponent
   ],
   imports: [
     //modulos de ui
@@ -103,8 +107,7 @@ export function tokenGetter() {
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent },
       { path: 'eleccion', component:EleccionComponent,canActivate: [AuthGuard]},
-      { path: 'participantes', component:ParticipantesComponent,canActivate: [AuthGuard]},
-      { path: 'resultados', component:ResultadosComponent,canActivate: [AuthGuard]},
+      { path: 'participantes', component:ParticipantesComponent},
       { path: 'xd', component:UploadExcelComponent,canActivate: [AuthGuard]},
       { path: 'img', component:UploadFileComponent,canActivate: [AuthGuard]},
       { path: 'votacion', component:QrAccessComponent},

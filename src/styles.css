@@ -140,6 +140,7 @@ color: #7c82ff; /* Aquí definimos el color base */
 
 #qr-shaded-region, video {
   border-radius: 18px;
+  
 }
 
 
@@ -173,3 +174,35 @@ color: #7c82ff; /* Aquí definimos el color base */
   border-color: #7c82ff !important;
 }
 
+
+/* 
+.mat-step-header{
+  background-color: #7c82ff !important;
+} */
+
+.mat-horizontal-stepper-header-container{
+  width: 50vw;
+  background-color: #7c82ff !important;
+  border-radius: 50px;
+  margin: auto !important;
+  margin-top: 10px !important;
+}
+.mat-step-header.cdk-keyboard-focused, .mat-step-header.cdk-program-focused, .mat-step-header:hover:not([aria-disabled]), .mat-step-header:hover[aria-disabled=false]{
+  background-color: #626af7 !important;
+  border-radius: 50px;
+}
+
+.btn:disabled{
+  background-color: #a5a9ff;
+
+}
+
+.mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit{
+  background-color: #fff;
+  color: #7c82ff;
+  font-weight: bold;
+}
+
+.form-control:focus{
+  box-shadow: #7c82ff !important;
+}

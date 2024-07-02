@@ -9,55 +9,85 @@ import { UploadFileService } from '../shared/services/upload-file.service';
   styleUrls: ['./upload-file.component.css']
 })
 export class UploadFileComponent {
-
+  imagePreview: string | ArrayBuffer
   selectedImage: File | null = null;
-  imagePreview: string | ArrayBuffer | null = null;
   imageName: string | null = null;
 
+  ListaCandidatos : CandidatosDto[]  = []
 
-  @Output() fileSelected = new EventEmitter<string>();
+
   @ViewChild('fileInput') fileInput: ElementRef | undefined;
+  @Output() outInputValor  = new EventEmitter<{nombre:string,img:string|ArrayBuffer, imgFile: File , dataSrc:string|any}>();
+  
+  
+  // @Input('mostrarImgCandidato') mostrarImgCandidato : boolean | null
+  // @Output() estadoVerCandidato = new EventEmitter
 
-  constructor(private imageUploadService: UploadFileService) { }
+  // @Input('mostrarImgPartidoPolitico') mostrarImgPartidoPolitico : boolean | null
+  // @Output() estadoVerPartidoPolitoco = new EventEmitter
+
+  @Input('mostrarImg') mostrarImg:boolean | null
+  @Output() cambiarView = new EventEmitter
+
+
+  constructor() { }
 
   onImageSelected(event: Event): void {
+    alert('mostrar img' + this.mostrarImg)
+    console.log('change')
+    
     const input = event.target as HTMLInputElement;
-
+    
     // Verifica si hay archivos seleccionados
     if (input.files && input.files.length > 0) {
+      console.log('seleccionando')
       const file = input.files[0];
-
       // Verifica que el archivo seleccionado sea una imagen
-      if (file.type.startsWith('image/')) {
-        this.selectedImage = file;
-        this.imageName = file.name;
-
+        this.imageName = file.name
+        this.cambiarView.emit(true)
         // Mostrar la vista previa
         const reader = new FileReader();
         reader.onload = () => {
           this.imagePreview = reader.result;
+          console.log('imagenview',this.imagePreview)
+          alert('se envia el obj'+ JSON.stringify(file))
+          console.log('file' , file)
+          console.log('file 2' , this.fileInput.nativeElement.value)
+          console.log('file 3' , JSON.stringify({nombre:file.name, img:this.imageName, imgFile:file, dataSrc:this.imagePreview}))
+          this.outInputValor.emit({nombre:file.name, img:this.imageName, imgFile:file, dataSrc:this.imagePreview})
+
         };
         reader.readAsDataURL(file);
-
-        // Enviar la imagen
-        this.imageUploadService.uploadImage(file).subscribe({
-          next: (res) => {
-            console.log(res.response);
-            alert('enviado')
-          }
-        });
-        
-        this.fileSelected.emit(file.name);
-
-
-      } else {
-        console.error('El archivo seleccionado no es una imagen.');
-      }
-    } else {
-      // Restaura el último archivo seleccionado si no se seleccionó ningún archivo nuevo
-      if (this.fileInput) {
-        this.fileInput.nativeElement.value = '';
-      }
-    }
+        // console.log('render', reader.readAsDataURL(file))
+        console.log('file solo',file)
+        console.log('imagenview',this.imagePreview)
+      
+    } else{alert('no hay')}
   }
+  resete(){ 
+    this.fileInput.nativeElement.value= null
+
+  }
+}
+
+export  class CandidatosDto{
+  id:number
+  nombre:string
+  nombrePartidoPolitico:string
+  fotoCandidato: string
+  fotoPartidoPolitico : string
+
+}
+export  class CandidatosFileDto implements CandidatosDto{
+  id: number;
+  nombre:string
+  nombrePartidoPolitico:string
+  fotoCandidato: string
+  fotoPartidoPolitico : string
+  imgCandidato:string|ArrayBuffer
+  imgPartidoPolitoco:string|ArrayBuffer
+  imgFileCandidato:File
+  imgFilePartidoPolitoco:File
+  dataSrcCandidato:string|any
+  dataSrcPartidoPolitico:string|any
 }

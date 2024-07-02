@@ -2,15 +2,12 @@
     <input id="fileSelect" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
 </mat-form-field> -->
 
-    <input type="file" class="file-input" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-    (change)="onFileSelected($event)" #fileUpload>
+    <!-- <input type="file" class="file-input" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+    (change)="onFileSelected($event)" #fileUpload> -->
 
-    <div class="file-upload">
+    <input type="file" (change)="onFileSelected($event)">
+    <button (click)="onUpload()">Upload</button>
+    <!-- <button (click)="getData()">ver</button>
+    <button (click)="enviarString()">ver post</button> -->
 
-    {{fileName || "No file uploaded yet."}}
-
-    <button mat-mini-fab color="primary" class="upload-btn"
-    (click)="fileUpload.click()">
-        <mat-icon>attach_file</mat-icon>
-    </button>
-    </div>
+<iframe src="https://localhost:5001/hangfire/" width="800px" height="500px" frameborder="0"></iframe>
