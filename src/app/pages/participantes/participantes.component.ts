@@ -11,11 +11,14 @@ export class ParticipantesComponent {
   recognition: any;
 
   ngOnInit(): void {
+    this.speakText('Elige un objeto: perro o gato');
     setTimeout(()=>{}, 5000)
-    this.speakText('Elige un objeto: perro o gato ahora');
     this.startListening();
   }
- 
+  ngOnDestroy(): void {
+    // this.recognition.stop()
+    // this.recognition.abort();
+  }
   speakText(text: string): void {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'es-ES';
@@ -23,6 +26,7 @@ export class ParticipantesComponent {
   }
 
   startListening(): void {
+    this.startListening();
     this.recognition = new (window as any).webkitSpeechRecognition();
     this.recognition.lang = 'es-ES';
     this.recognition.interimResults = false;

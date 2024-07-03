@@ -10,289 +10,305 @@
                 5px 5px 5px #dcdcdc,
                 -5px 5px 8px #ffffff;" #stepper
     >
-      
-      <!-- Titulo Step -->
-      <mat-step [stepControl]="tituloForm">
-        <div formGroupName="titulo" class="text-center mt-3">
 
-          <ng-template matStepLabel>
-            <h2  class="fs-6 m-auto">
-              Proceso
-            </h2>
-          </ng-template>
-
-            <div class="align-content-center justify-content-center">
-              
-
-              <div class="d-flex justify-content-around w-auto">
-                
-                <div class="form-floating ">
-                  <input class="form-control input" 
-                  (focus)="checkErrors('titulo','tituloName')"
-                  (input)="checkErrors('titulo','tituloName')"
-                  type="text" id="floatingInputTitulo" placeholder="Elecciones precidenciales" formControlName="tituloName">
-                  <label for="floatingInputTitulo">Nombres</label>        
-                </div>  
-
-              </div>
-              <div class=" m-auto"  style="min-height: 35px;">
-                <p style="font-size: 12px; margin: 0; padding: 0; "  class="fw-bold text-danger" *ngFor="let error of  listadoErroresFormulario['titulo']['tituloName'] ">
-                  {{ error}}
-                </p> 
-               </div>   
-  
-
-                             
-              <div class="d-flex justify-content-around w-auto">
-                
-                <div class="form-floating ">
-                  <input class="form-control input" 
-                  onclick="this.showPicker()" 
-                  (focus)="checkErrors('titulo','fechaInicio')"
-                  (input)="checkErrors('titulo','fechaInicio')"
-                  type="datetime-local" id="floatingInputTitulo" placeholder="Elecciones precidenciales" formControlName="fechaInicio">
-                  <label for="floatingInputTitulo">Fecha Incio</label>        
-                </div>  
-
-              </div>
-              <div class=" m-auto"  style="min-height: 35px;">
-                <p style="font-size: 12px; margin: 0; padding: 0; "  class="fw-bold text-danger" *ngFor="let error of  listadoErroresFormulario['titulo']['fechaInicio'] ">
-                  {{ error}}
-                </p> 
-               </div>   
-  
+                <!-- Titulo Step -->
+                <mat-step [stepControl]="tituloForm">
+                  <div formGroupName="titulo" class="text-center mt-3">
           
-                             
-              <div class="d-flex justify-content-around w-auto">
-                
-                <div class="form-floating ">
-                  <input class="form-control input"  onclick="this.showPicker()" type="datetime-local" id="floatingInputFechaFin" formControlName="fechaFin">
-                  <label for="floatingInputFechaFin">Fecha Fin</label>        
-                </div>  
-
-              </div>
-              <div class="m-auto" style="min-height: 35px;">
-                <p style="font-size: 12px; margin: 0; padding: 0;"  class="fw-bold text-danger"  *ngIf="esCampoInvalidoGrupo('titulo','fechaFin')">
-                  {{ obtenerErrorGrupo('titulo','fechaFin') }}
-                </p> 
-               </div>   
-  
-  
+                    <ng-template matStepLabel>
+                      <h2  class="fs-6 m-auto">
+                        Proceso
+                      </h2>
+                    </ng-template>
           
-              <div class="d-flex justify-content-center mb-4">
-                <label class="color-primary fs-mini fw-bold" for="flexCheckDefault">
-                  Resultados Publico
-                </label>
-                <div class="form-switch mx-2" style="padding: 0 !important;">
-                  <input class="form-check-input bg-light" style="margin: 0 !important;padding: 0 !important ; width: 50px;"  type="checkbox"   formControlName="resultadoPublico">
-                </div>
+                      <div class="align-content-center justify-content-center">
+                        
+          
+                        <div class="d-flex justify-content-around w-auto">
+                          
+                          <div class="form-floating ">
+                            <input class="form-control input" 
+                            (focus)="checkErrors('titulo','tituloName')"
+                            (input)="checkErrors('titulo','tituloName')"
+                            type="text" id="floatingInputTitulo" placeholder="Elecciones precidenciales" formControlName="tituloName">
+                            <label for="floatingInputTitulo">Título</label>        
+                          </div>  
+          
+                        </div>
+                        <div class=" m-auto"  style="min-height: 35px;">
+                          <p style="font-size: 12px; margin: 0; padding: 0; "  class="fw-bold text-danger" *ngFor="let error of  listadoErroresFormulario['titulo']['tituloName'] ">
+                            {{ error}}
+                          </p> 
+                         </div>   
+            
+          
+                                       
+                        <div class="d-flex justify-content-around w-auto">
+                          
+                          <div class="form-floating ">
+                            <input class="form-control input" 
+                            id="InputFechaInicio"
+                            #InputFechaInicio
+                            (change)="onStartDateTimeChange($event)"
 
-
-              </div>
-
-
-
-          </div>
-
-        </div>
-        <div class="text-center">
-          <button  (onclik)="transition()" class="btn btn-action bg-primary-color text-white" [disabled]="formIsValid()"  matStepperNext>Siguiente</button>
-        </div>
-      </mat-step>
-      
-
-      <!-- Candidatos Step -->
-      <mat-step [stepControl]="candidatosForm">
-        <div formGroupName="candidatos" class="text-center mt-3">
-          <ng-template matStepLabel>
-            <h2  class="fs-6 m-auto">
-              Candidatos
-            </h2>
-          </ng-template>
-
-          <div class="d-flex flex-wrap justify-content-center" >
-            <div class="row" style="width: 45vw;">
-              <div class="col-12">
-                <h3 *ngIf="edit != true" class="color-primary h4 fw-bold">Registrar Candidatos y P.P</h3>
-                <h3 *ngIf="edit" class="color-primary h4 fw-bold">Editar Candidatos y P.P</h3>
-
-              </div>
-
-              <div class="justify-content-center mt-2 col-xl-6 col-sm-12" style="height: 40vh;">
-
-                <div class="d-flex justify-content-around w-auto">
-
-
-                  <div class="form-floating ">
-                    <input class="form-control bg-light" 
-                    (focus)="checkErrors('candidatos','nombre')"
-                    (input)="checkErrors('candidatos','nombre')"
-                    (input)="inputText($event)"
-                    type="text" id="floatingInputTitulo" placeholder="Elecciones precidenciales" formControlName="nombre">
-                    <label for="floatingInputTitulo">Nombre Candidato</label>        
-                  </div>  
-    
-                </div>
-
-                <div class=" m-auto"  style="min-height: 35px;">
-                  <p style="font-size: 12px; margin: 0; padding: 0; "  class="fw-bold text-danger" *ngFor="let error of  listadoErroresFormulario['candidatos']['nombre'] ">
-                    {{ error}}
-                  </p> 
-                 </div>   
-
-                 <div class="mb-5">
-                  <mat-label>
-                    <app-upload-file [mostrarImg]="mostrarImagenCandidato"  (cambiarView)="getEstadoVerImgCandidato($event)"  (outInputValor)="onFileSelected($event)"></app-upload-file>
-                      <input #fotoCandidato type="text" [readOnly]="true" [ngModel]="CandidatoFileName"  class="d-none visually-hidden" matInput formControlName="fotoCandidato">
-                      <mat-error  *ngIf="Empregister.get('candidatos').get('fotoCandidato').invalid" style="font-size: 12px !important; margin: 0; padding: 0; color: #c480ff;" >Foto obligatoria</mat-error>
-                    </mat-label>
-
-                </div>
-      
-    
-    
-              </div>
-    
-    
-    
-       
-       
-              <div class="justify-content-center mt-2 col-xl-6  col-sm-12" style="height: 40vh;">
-                <div class="d-flex justify-content-around w-auto">
+                            onclick="this.showPicker()" 
+                            (focus)="checkErrors('titulo','fechaInicio')"
+                            (input)="checkErrors('titulo','fechaInicio')"
+                            type="datetime-local" id="floatingInputTitulo" placeholder="Elecciones precidenciales" formControlName="fechaInicio">
+                            <label for="floatingInputTitulo">Fecha Incio</label>        
+                          </div>  
+          
+                        </div>
+                        <div class=" m-auto"  style="min-height: 35px;">
+                          <p style="font-size: 12px; margin: 0; padding: 0; "  class="fw-bold text-danger" *ngFor="let error of  listadoErroresFormulario['titulo']['fechaInicio'] ">
+                            {{ error}}
+                          </p> 
+                         </div>   
+            
                     
-                  <div class="form-floating ">
-                    <input class="form-control bg-light" 
-                    (focus)="checkErrors('candidatos','nombrePartidoPolitico')"
-                    (input)="checkErrors('candidatos','nombrePartidoPolitico')"
-                    (input)="inputText($event)"
-                    type="text" id="floatingInputnombrePartidoPolitico" placeholder="Elecciones precidenciales" formControlName="nombrePartidoPolitico">
-                    <label for="floatingInputnombrePartidoPolitico">Nombre P.P</label>        
-                  </div>  
-    
-                </div>
-
-                <div class=" m-auto"  style="min-height: 35px;">
-                  <p style="font-size: 12px; margin: 0; padding: 0; "  class="fw-bold text-danger" *ngFor="let error of  listadoErroresFormulario['candidatos']['nombrePartidoPolitico'] ">
-                    {{ error}}
-                  </p> 
-                 </div>   
-
-                 <div class="mb-5">
-                      <app-upload-file   [mostrarImg]="mostrarImagenPatidoPolitico" (cambiarView)="getEstadoVerImgPartidoPolitico($event)" (outInputValor)="onFileSelectedPartido($event)" ></app-upload-file>
-                      <input #fotoPartido type="text" [ngModel]="PartidoPoliticoFileName" class="visually-hidden d-none" matInput formControlName="fotoPartidoPolitico">
-
-                      <mat-error *ngIf="Empregister.get('candidatos').get('fotoPartidoPolitico').invalid" style="font-size: 12px !important; margin: 0; padding: 0; color: #c480ff;"  >Foto obligatoria</mat-error>
-                      
-                      
-                </div>
-      
-    
-    
-              </div>
-    
-
-    
-    
-    
-              <div>
-                <button  *ngIf="edit!=true"   style="background-color: #58d861; min-width: 10vw !important" class="btn btn-action m-auto text-white justify-content-center align-content-center d-flex " (click)="addCandidato()">
-                  <svg style="margin-top: 3px !important" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-person-fill-add p-0 m-0" viewBox="0 0 16 16">
-                    <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                    <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
-                  </svg> 
-                <div class="ms-1">
-                   Añadir
-                </div>
-              </button>
-              </div>
-    
-    
-
-              <div *ngIf="edit==true">
-                <button   style="background-color: #358cfd; min-width: 10vw;margin-top: -2px;" class="btn btn-action m-auto text-white align-content-center justify-content-center d-flex" (click)="editCandidato()">
-                  <svg  style="margin-top: 3px !important" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-pencil-square p-0 m-0" viewBox="0 0 16 16">
-                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                  </svg>
-                  <div class="ms-1">
-                    Editar
+                                       
+                        <div class="d-flex justify-content-around w-auto">
+                          
+                          <div class="form-floating ">
+                            <input class="form-control input"
+                            [(ngModel)]="fechaActual"
+                            [ngClass]="{'btn disabled': InputFechaInicio.value.length == 0}"
+                            #InputFechaInicio
+                            [min] = 'fechaActual'
+                              onclick="this.showPicker()" 
+                              (focus)="checkErrors('titulo','fechaFin')"
+                              (input)="checkErrors('titulo','fechaFin')"
+                              type="datetime-local" 
+                              id="floatingInputFechaFin" 
+                              formControlName="fechaFin">
+                            <label for="floatingInputFechaFin">Fecha Fin</label>        
+                          </div>  
+          
+                        </div>
+                        <div class="m-auto" style="min-height: 35px;">
+                          <p style="font-size: 12px; margin: 0; padding: 0;"  class="fw-bold text-danger"  *ngFor="let error of  listadoErroresFormulario['titulo']['fechaFin'] ">
+                            {{error}}
+                          </p> 
+                         </div>   
+            
+            
+                    
+                        <div class="d-flex justify-content-center mb-4">
+                          <label class="color-primary fs-mini fw-bold" for="flexCheckDefault">
+                            Resultados Publico
+                          </label>
+                          <div class="form-switch mx-2" style="padding: 0 !important;">
+                            <input class="form-check-input bg-light" style="margin: 0 !important;padding: 0 !important ; width: 50px;"  type="checkbox"   formControlName="resultadoPublico">
+                          </div>
+          
+          
+                        </div>
+          
+          
+          
+                    </div>
+          
                   </div>
-                 </button>
-      
-                <button  class="mt-2"  style="background-color: #f3f3f3;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); min-width: 10vw;" class="btn btn-action m-auto align-content-center text-white d-flex justify-content-center" (click)="cancelarEdit()">
-                  <svg  style="margin-top: 3px !important" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-x-circle-fill color-primary" viewBox="0 0 16 16">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
-                  </svg>
-                  <div class="color-primary ms-1">
-                    Cancelar
+                  <div class="text-center">
+                    <button  (onclik)="transition()" class="btn btn-action bg-primary-color text-white" [disabled]="formIsValid()"  matStepperNext>Siguiente</button>
                   </div>
-                </button>
-
-              </div>
-               
-              
- 
-            </div>
-
-
-            <div class="rounded-end border-start border-end" style="width: 45vw;">
-              <h3 class="color-primary h4 fw-bold" >Lista de Candidatos</h3>
-              
-
-
-              <div *ngIf="listCandidatosToJson.length > 0" class="d-flex flex-wrap justify-content-evenly align-content-center
-                ">
-                <div *ngFor="let item of listCandidatosToJson" [ngClass]="{'bg-light':edit}" >
-                  
-                  <div class="card bg-light m-auto mt-3" style="width: 200px; ">
-    
+                </mat-step>
                 
-                    <div class="position-relative">
-                      <img [src]="item.dataSrcCandidato" width="200px" height="150px"  alt="Imagen candidato">
-                      <img [src]="item.dataSrcPartidoPolitico"  width="200px" height="50px"   class="position-absolute bottom-0 start-50 translate-middle-x" alt="Imagen Candidato">
-                    </div>
-                   
-                    <div class="text-center">
-                      <h1 class="fw-bold fs-6 mt-2 text-capitalize text-body-secondary">{{ item.nombre }}</h1>
-                      <h2 class="fw-bold text-capitalize mt-2 text-body-tertiary" style="font-size: 12px;">{{ item.nombrePartidoPolitico }}</h2>
-                    </div>
-    
-                    <div class="text-center my-2">
-                        <button  (click)="delCandidato(item.id)" class="btn bg-white btn-sm mx-2 btnDelete rounded-circle" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash fw-bold" viewBox="0 0 16 16">
-                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                          </svg>                   </button>
-                        <button (click)="btnEdit(item.id)" class="btn bg-white btn-sm  mx-2 rounded-circle btnEdit" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"  fill="none">
-                            <path d="M16.2141 4.98239L17.6158 3.58063C18.39 2.80646 19.6452 2.80646 20.4194 3.58063C21.1935 4.3548 21.1935 5.60998 20.4194 6.38415L19.0176 7.78591M16.2141 4.98239L10.9802 10.2163C9.93493 11.2616 9.41226 11.7842 9.05637 12.4211C8.70047 13.058 8.3424 14.5619 8 16C9.43809 15.6576 10.942 15.2995 11.5789 14.9436C12.2158 14.5877 12.7384 14.0651 13.7837 13.0198L19.0176 7.78591M16.2141 4.98239L19.0176 7.78591" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M21 12C21 16.2426 21 18.364 19.682 19.682C18.364 21 16.2426 21 12 21C7.75736 21 5.63604 21 4.31802 19.682C3 18.364 3 16.2426 3 12C3 7.75736 3 5.63604 4.31802 4.31802C5.63604 3 7.75736 3 12 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                        </svg>                    </button>
-                    </div>
-
-
-                  </div>
-                  
-                </div>
+          
+                <!-- Candidatos Step -->
+                <mat-step [stepControl]="candidatosForm">
+                  <div formGroupName="candidatos" class="text-center mt-3">
+                    <ng-template matStepLabel>
+                      <h2  class="fs-6 m-auto">
+                        Candidatos
+                      </h2>
+                    </ng-template>
+          
+                    <div class="d-flex flex-wrap justify-content-center" >
+                      <div class="row" style="width: 45vw;">
+                        <div class="col-12">
+                          <h3 *ngIf="edit != true" class="color-primary h4 fw-bold">Registrar Candidatos y P.P</h3>
+                          <h3 *ngIf="edit" class="color-primary h4 fw-bold">Editar Candidatos y P.P</h3>
+          
+                        </div>
+          
+                        <div class="justify-content-center mt-2 col-xl-6 col-sm-12" style="height: 40vh;">
+          
+                          <div class="d-flex justify-content-around w-auto">
+          
+          
+                            <div class="form-floating ">
+                              <input class="form-control bg-light" 
+                              (focus)="checkErrors('candidatos','nombre')"
+                              (input)="checkErrors('candidatos','nombre')"
+                              (input)="inputText($event)"
+                              type="text" id="floatingInputTitulo" placeholder="Elecciones precidenciales" formControlName="nombre">
+                              <label for="floatingInputTitulo">Nombre Candidato</label>        
+                            </div>  
               
-              </div>
+                          </div>
+          
+                          <div class=" m-auto"  style="min-height: 35px;">
+                            <p style="font-size: 12px; margin: 0; padding: 0; "  class="fw-bold text-danger" *ngFor="let error of  listadoErroresFormulario['candidatos']['nombre'] ">
+                              {{ error}}
+                            </p> 
+                           </div>   
+          
+                           <div class="mb-5">
+                            <mat-label>
+                              <app-upload-file [mostrarImg]="mostrarImagenCandidato"  (cambiarView)="getEstadoVerImgCandidato($event)"  (outInputValor)="onFileSelected($event)"></app-upload-file>
+                                <input #fotoCandidato type="text" [readOnly]="true" [ngModel]="CandidatoFileName"  class="d-none visually-hidden" matInput formControlName="fotoCandidato">
+                                <mat-error  *ngIf="Empregister.get('candidatos').get('fotoCandidato').invalid" style="font-size: 12px !important; margin: 0; padding: 0; color: #c480ff;" >Foto obligatoria</mat-error>
+                              </mat-label>
+          
+                          </div>
+                
+              
+              
+                        </div>
+              
+              
+              
+                 
+                 
+                        <div class="justify-content-center mt-2 col-xl-6  col-sm-12" style="height: 40vh;">
+                          <div class="d-flex justify-content-around w-auto">
+                              
+                            <div class="form-floating ">
+                              <input class="form-control bg-light" 
+                              (focus)="checkErrors('candidatos','nombrePartidoPolitico')"
+                              (input)="checkErrors('candidatos','nombrePartidoPolitico')"
+                              (input)="inputText($event)"
+                              type="text" id="floatingInputnombrePartidoPolitico" placeholder="Elecciones precidenciales" formControlName="nombrePartidoPolitico">
+                              <label for="floatingInputnombrePartidoPolitico">Nombre P.P</label>        
+                            </div>  
+              
+                          </div>
+          
+                          <div class=" m-auto"  style="min-height: 35px;">
+                            <p style="font-size: 12px; margin: 0; padding: 0; "  class="fw-bold text-danger" *ngFor="let error of  listadoErroresFormulario['candidatos']['nombrePartidoPolitico'] ">
+                              {{ error}}
+                            </p> 
+                           </div>   
+          
+                           <div class="mb-5">
+                                <app-upload-file   [mostrarImg]="mostrarImagenPatidoPolitico" (cambiarView)="getEstadoVerImgPartidoPolitico($event)" (outInputValor)="onFileSelectedPartido($event)" ></app-upload-file>
+                                <input #fotoPartido type="text" [ngModel]="PartidoPoliticoFileName" class="visually-hidden d-none" matInput formControlName="fotoPartidoPolitico">
+          
+                                <mat-error *ngIf="Empregister.get('candidatos').get('fotoPartidoPolitico').invalid" style="font-size: 12px !important; margin: 0; padding: 0; color: #c480ff;"  >Foto obligatoria</mat-error>
+                                
+                                
+                          </div>
+                
+              
+              
+                        </div>
+              
+          
+              
+              
+              
+                        <div>
+                          <button  *ngIf="edit!=true"   style="background-color: #58d861; min-width: 10vw !important" class="btn btn-action m-auto text-white justify-content-center align-content-center d-flex " (click)="addCandidato()">
+                            <svg style="margin-top: 3px !important" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-person-fill-add p-0 m-0" viewBox="0 0 16 16">
+                              <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                              <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+                            </svg> 
+                          <div class="ms-1">
+                             Añadir
+                          </div>
+                        </button>
+                        </div>
+              
+              
+          
+                        <div *ngIf="edit==true">
+                          <button   style="background-color: #358cfd; min-width: 10vw;margin-top: -2px;" class="mb-3 btn btn-action m-auto text-white align-content-center justify-content-center d-flex" (click)="editCandidato()">
+                            <svg  style="margin-top: 3px !important" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-pencil-square p-0 m-0" viewBox="0 0 16 16">
+                              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                            </svg>
+                            <div class="ms-1">
+                              Editar
+                            </div>
+                           </button>
+                
+                          <button  class="mt-3"  style="background-color: #f3f3f3;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); min-width: 10vw;" class="btn btn-action m-auto align-content-center text-white d-flex justify-content-center" (click)="cancelarEdit()">
+                            <svg  style="margin-top: 3px !important" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-x-circle-fill color-primary" viewBox="0 0 16 16">
+                              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+                            </svg>
+                            <div class="color-primary ms-1">
+                              Cancelar
+                            </div>
+                          </button>
+          
+                        </div>
+                         
+                        
+           
+                      </div>
+          
+          
+                      <div class="rounded-end border-start border-end" style="width: 45vw;">
+                        <h3 class="color-primary h4 fw-bold" >Lista de Candidatos</h3>
+                        
+          
+          
+                        <div *ngIf="listCandidatosToJson.length > 0" class="d-flex flex-wrap justify-content-evenly align-content-center
+                          ">
+                          <div *ngFor="let item of listCandidatosToJson" [ngClass]="{'bg-light':edit}" >
+                            
+                            <div class="card bg-light m-auto mt-3" style="width: 200px; ">
+              
+                          
+                              <div class="position-relative">
+                                <img [src]="item.dataSrcCandidato" width="200px" height="150px"  alt="Imagen candidato">
+                                <img [src]="item.dataSrcPartidoPolitico"  width="200px" height="50px"   class="position-absolute bottom-0 start-50 translate-middle-x" alt="Imagen Candidato">
+                              </div>
+                             
+                              <div class="text-center">
+                                <h1 class="fw-bold fs-6 mt-2 text-capitalize text-body-secondary">{{ item.nombre }}</h1>
+                                <h2 class="fw-bold text-capitalize mt-2 text-body-tertiary" style="font-size: 12px;">{{ item.nombrePartidoPolitico }}</h2>
+                              </div>
+              
+                              <div class="text-center my-2">
+                                  <button  (click)="delCandidato(item.id)" class="btn bg-white btn-sm mx-2 btnDelete rounded-circle" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash fw-bold" viewBox="0 0 16 16">
+                                      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                      <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                    </svg>                   </button>
+                                  <button (click)="btnEdit(item.id)" class="btn bg-white btn-sm  mx-2 rounded-circle btnEdit" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"  fill="none">
+                                      <path d="M16.2141 4.98239L17.6158 3.58063C18.39 2.80646 19.6452 2.80646 20.4194 3.58063C21.1935 4.3548 21.1935 5.60998 20.4194 6.38415L19.0176 7.78591M16.2141 4.98239L10.9802 10.2163C9.93493 11.2616 9.41226 11.7842 9.05637 12.4211C8.70047 13.058 8.3424 14.5619 8 16C9.43809 15.6576 10.942 15.2995 11.5789 14.9436C12.2158 14.5877 12.7384 14.0651 13.7837 13.0198L19.0176 7.78591M16.2141 4.98239L19.0176 7.78591" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                      <path d="M21 12C21 16.2426 21 18.364 19.682 19.682C18.364 21 16.2426 21 12 21C7.75736 21 5.63604 21 4.31802 19.682C3 18.364 3 16.2426 3 12C3 7.75736 3 5.63604 4.31802 4.31802C5.63604 3 7.75736 3 12 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                  </svg>                    </button>
+                              </div>
+          
+          
+                            </div>
+                            
+                          </div>
+                        
+                        </div>
+          
+                      </div>  
+          
+                    </div>
+          
+          
+          
+          
+                    <div class="mt-4">
+                      <button style="width: 10vw;" class="btn btn-action bg-primary-color text-white" matStepperPrevious>Atras</button> | 
+                      <button style="width: 10vw;" class="btn btn-action bg-primary-color text-white" (click)="goToVotantes()"  >Siguiente</button>
+                    </div>
+          
+          
+                 
+                  </div>
+                </mat-step>
+          
 
-            </div>  
-
-          </div>
-
-
-
-
-          <div class="mt-4">
-            <button style="width: 10vw;" class="btn btn-action bg-primary-color text-white" matStepperPrevious>Atras</button> | 
-            <button style="width: 10vw;" class="btn btn-action bg-primary-color text-white" (click)="goToVotantes()"  >Siguiente</button>
-          </div>
-
-
-       
-        </div>
-      </mat-step>
 
 
       <!-- Votantes Step -->
@@ -304,34 +320,73 @@
               Votantes
             </h2>
           </ng-template>
-          <h3 class="color-primary fs-4 fw-bold mt-3 ">Ya casi Terminas, registra a los votantes</h3>
-          <img src="../../assets/img/db1.png" style="width: 250px; height: 250px;" alt="img subir votantes">
-        
-          <div class="m-auto">
-            <div class="d-flex justify-content-center">
-              <div class="file-upload">
-                <button mat-mini-fab color="primary" class="upload-btn mt-1"  (click)="InputFileExcel.click()">
-                  <mat-icon>attach_file</mat-icon>
-                </button>
-              </div> 
-              <input (change)="onFileSelectedExcel($event)" style="margin:0 !important; border-color: rgb(86, 4, 121); width:auto !important;" #InputFileExcel accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="form-control input w-75" type="file" id="floatingInputCsv" formControlName="excel">
 
+          <div class="m-auto mt-2 row" style="width: 50vw;background-color: F6F6F6F;border-radius: 13px;
+          background: #ffffff;  
+          box-shadow: -5px -5px 8px #f6f6f6,
+                      -5px 5px 8px #dcdcdc,
+                      5px 5px 5px #dcdcdc,
+                      -5px 5px 8px #ffffff;">
+              <div class="col-12">
+                <h3 class="color-primary fs-4 fw-bold mt-3 ">¡Ya casi Terminas!, registra los votantes</h3>
+                <hr>
+              </div>
+            <div class="col-5">
+              <img  src="../../assets/img/db1.png" style="width: 200px; height: 200px;" alt="img subir votantes">
+            </div>
+            <div class="col-7 align-content-center">
+              <ol class="">
+                <li class="fs-6 fw-bold  text-start">
+                  Descarge la plantilla
+                  <a target="_blank" href="https://localhost:5001/formatos/FormatoVotantes.xlsx">                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 14 14"><path fill="#7c82ff" fill-rule="evenodd" d="M1.44.44A1.5 1.5 0 0 1 2.5 0h6a.5.5 0 0 1 .354.146l4 4A.5.5 0 0 1 13 4.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 1 12.5v-11c0-.398.158-.78.44-1.06m5.747 10.502l.104-.104c.116-.076.216-.176.292-.292l1.854-1.854a.625.625 0 0 0-.442-1.067h-1.25V4a1 1 0 0 0-2 0v3.625h-1.25a.625.625 0 0 0-.442 1.067l1.854 1.854c.076.116.176.216.292.292l.104.104a.625.625 0 0 0 .884 0" clip-rule="evenodd"/></svg>
+                  </a>
+                </li>
+                <li class="fs-6 fw-bold  text-start">Registra los campos indicados</li>
+                <li class="fs-6 fw-bold  text-start">Guarde los cambios</li>
+                <li class="fs-6 fw-bold  text-start">Convierta el documento a .cs</li>
+                <li class="fs-6 fw-bold  text-start">Subalo</li>
+              </ol>
+              <!-- <a href="" class="btn btn-action" style="    box-shadow: -5px -5px 8px #dcdcdc,
+              -2px 2px 4px #dcdcdc,
+              1px 1px 2px #dcdcdc,
+              -2px 2px 4px #ffffff;"> 
+                DESCARGAR PLANTILLA
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 14 14"><path fill="#7c82ff" fill-rule="evenodd" d="M1.44.44A1.5 1.5 0 0 1 2.5 0h6a.5.5 0 0 1 .354.146l4 4A.5.5 0 0 1 13 4.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 1 12.5v-11c0-.398.158-.78.44-1.06m5.747 10.502l.104-.104c.116-.076.216-.176.292-.292l1.854-1.854a.625.625 0 0 0-.442-1.067h-1.25V4a1 1 0 0 0-2 0v3.625h-1.25a.625.625 0 0 0-.442 1.067l1.854 1.854c.076.116.176.216.292.292l.104.104a.625.625 0 0 0 .884 0" clip-rule="evenodd"/></svg>
+              </a>                -->
+
+            </div>
+          </div>
+        
+          <div class="m-auto mt-3">
+            <div class="d-flex justify-content-center align-content-center">
+              <div class=" d-flex justify-content-center align-content-center">
+                <button class="btn bg-white btnUpload color-primary  rounded-circle" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);"  (click)="InputFileExcel.click()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path  d="M11 19h2v-4.175l1.6 1.6L16 15l-4-4l-4 4l1.425 1.4L11 14.825zm-5 3q-.825 0-1.412-.587T4 20V4q0-.825.588-1.412T6 2h8l6 6v12q0 .825-.587 1.413T18 22zm7-13h5l-5-5z"/></svg>
+                </button>
+                </div>
+
+              <div class=" color-primary btn disabled border-0 w-auto  text-center">
+                 <div class="fw-bold" *ngIf="InputFileExcel.value == ''">
+                   Subir archivo
+                 </div>
+                  <p class="m-0 p-0" *ngIf="InputFileExcel.value != '' ">{{InputFileExcel.value}}</p>
+              </div>
+              <input  class="form-control input w-75 d-none"  (change)="onFileSelectedExcel($event)" style=" display: none;visibility: hidden ;margin:0 !important; border-color: rgb(86, 4, 121); width:auto !important;" #InputFileExcel accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="form-control input w-75" type="file" id="floatingInputCsv" formControlName="excel">
             </div>  
 
           </div>
 
           <div class=" m-auto"  style="min-height: 35px;">
-            <p style="font-size: 12px; margin: 0; padding: 0; "  class="fw-bold text-danger" *ngFor="let error of  listadoErroresFormulario['titulo']['tituloName'] ">
+            <p style="font-size: 12px; margin: 0; padding: 0;"   class="fw-bold text-danger" *ngFor="let error of  listadoErroresFormulario['votantes']['excel'] ">
               {{ error}}
             </p> 
            </div>   
 
-        
-
           <div>
-            <button mat-raised-button color="primary" matStepperPrevious>Atras</button> | 
-            <button mat-raised-button (click)="sendProceso()">Finalizar</button>
+            <button style="width: 10vw;" class="btn btn-action bg-primary-color text-white" matStepperPrevious>Atras</button> | 
+            <button   class="btn btn-action bg-primary-color text-white"   style="width: 10vw;" (click)="sendProceso()">Finalizar</button>
           </div>
+
         </div>
       </mat-step>
       

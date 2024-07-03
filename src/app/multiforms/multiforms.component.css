@@ -447,6 +447,13 @@ color: #dc2f2f;
 	background-color: #0e55d0 !important;
 }
 
+.btnUpload:hover{
+	background-color: #7c82ff !important;
+	color: white !important;
+	font-weight: bold !important;
+	transition: linear 300ms;
+}
+
   .overlay-image {
 	top: -1;
 	height: 25%;
@@ -458,5 +465,15 @@ color: #dc2f2f;
 	object-fit: cover;
   }
   
+  ol { counter-reset: item; }
+  ol li { display: block; }
+  ol li:before {
+	  content: counter(item) ". ";
+	  counter-increment: item;
+	  color: #7c82ff;
+	  font-weight: bold;
+  }
 
-  
+  input:disabled,.disabled {
+	background-color: #dedede;
+  }

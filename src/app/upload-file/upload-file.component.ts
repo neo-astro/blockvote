@@ -33,15 +33,15 @@ export class UploadFileComponent {
   constructor() { }
 
   onImageSelected(event: Event): void {
-    alert('mostrar img' + this.mostrarImg)
-    console.log('change')
     
     const input = event.target as HTMLInputElement;
-    
+
     // Verifica si hay archivos seleccionados
     if (input.files && input.files.length > 0) {
       console.log('seleccionando')
+      alert('input' + input)
       const file = input.files[0];
+      alert('file upload' + file)
       // Verifica que el archivo seleccionado sea una imagen
         this.imageName = file.name
         this.cambiarView.emit(true)
@@ -87,7 +87,7 @@ export  class CandidatosFileDto implements CandidatosDto{
   imgCandidato:string|ArrayBuffer
   imgPartidoPolitoco:string|ArrayBuffer
   imgFileCandidato:File
-  imgFilePartidoPolitoco:File
+  imgFilePartidoPolitico:File
   dataSrcCandidato:string|any
   dataSrcPartidoPolitico:string|any
 }

@@ -4,7 +4,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { CandidatosDto, CandidatosFileDto } from '../upload-file/upload-file.component';
 import { ToastServiceService } from '../shared/services/toast.service.service';
 import { EleccionVotarService } from '../shared/services/eleccion-votar.service';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { ProcesoService } from '../shared/services/proceso.service';
 
 
@@ -17,6 +17,9 @@ import { ProcesoService } from '../shared/services/proceso.service';
 export class MultiformsComponent  implements OnInit{
   fileCsv: File | null = null;
 
+  startDateTime: string;
+  endDateTimeMin: string;
+  fechaActual:string
 
   idEditar :number = 0
   edit: boolean = false
@@ -38,10 +41,12 @@ export class MultiformsComponent  implements OnInit{
 
   outImgFileCandidato : File
   outImgFilePartidoPolitico : File
+
   dataSrcCandidato:string | any  
   dataSrcPartidoPolitico:string | any  
-  isLinear = true;
 
+
+  isLinear = true;
   originalValidators: { [key: string]: any[] } = {};
 
 
@@ -57,22 +62,27 @@ export class MultiformsComponent  implements OnInit{
       nombrePartidoPolitico: [],
       fotoCandidato:[],
       fotoPartidoPolitico:[]
+    },
+    votantes :{
+      excel:[]
     }
+
   }
 
 
   @ViewChild('fotoCandidato') inputCandidatoFoto!: ElementRef;
   @ViewChild('fotoPartido') inputPartidoFoto!: ElementRef;
   @ViewChild('InputFileExcel') inputputFileExcel!: ElementRef;
+
+  @ViewChild('InputFechaInicio') InputFechaInicio!: ElementRef;
+  @ViewChild('InputFechaFin') InputFechaFin!:  ElementRef<HTMLInputElement>;
+  // @ViewChild('imgInput') imgInput: ElementRef<HTMLInputElement>;
   @ViewChild('stepper') stepper!: MatStepper;
-
   form1 :FormBuilder
-
   constructor(private builder: FormBuilder, 
     private http: HttpClient,
     private toastService:ToastServiceService, private procesoService:ProcesoService) {
     
-
     this.Empregister = this.builder.group({
       titulo: this.builder.group({
         tituloName: this.builder.control('', [Validators.required,Validators.minLength(5)]),
@@ -83,7 +93,7 @@ export class MultiformsComponent  implements OnInit{
       }),
       candidatos: this.builder.group({
         nombre:   this.builder.control('',[Validators.required,Validators.minLength(5)]),
-        nombrePartidoPolitico: this.builder.control('',[Validators.required,Validators.minLength(5)]),
+        nombrePartidoPolitico: this.builder.control('',[Validators.required,Validators.minLength(2)]),
         fotoCandidato: this.builder.control('',Validators.required),
         fotoPartidoPolitico: this.builder.control('',Validators.required)
       }),
@@ -97,13 +107,40 @@ export class MultiformsComponent  implements OnInit{
 
   }
 
-  ngOnInit(): void {
+ ngOnInit(){
+ }
 
-    // this.tituloForm.get('tituloName').setValue(' ')
-    // this.candidatosForm.get('nombrePartidoPolitico').setValue(' ')
+ onStartDateTimeChange(event: any) {
+  if(event.target.value==''){this.fechaActual = null}
+  let date = new Date(event.target.value)
+  date.setDate(date.getDate() + 1);
+  let fechaMin  = new Date(date).toISOString().slice(0, 16);
+  this.fechaActual = fechaMin
 
-    
-  }
+
+
+  // const year = date.getFullYear();
+  // const month = ('0' + (date.getMonth() + 1)).slice(-2);
+  // const day = ('0' + date.getDate()).slice(-2);
+  // const hours = ('0' + date.getHours()).slice(-2);
+  // const minutes = ('0' + date.getMinutes()).slice(-2);
+  // const Fin = `${year}-${month}-${day}T${hours}:${minutes}`;
+  // fechaFin.value = Fin
+
+  // this.startDateTime = event.target.value;
+  // this.setEndDateTimeMin(new Date(this.startDateTime));
+  // this.InputFechaFin.nativeElement.value = new Date()
+}
+
+setEndDateTimeMin(date: Date) {
+  // Formatear la fecha a 'YYYY-MM-DDTHH:mm' para que sea compatible con el input datetime-local
+  const year = date.getFullYear();
+  const month = ('0' + (date.getMonth() + 1)).slice(-2);
+  const day = ('0' + date.getDate()).slice(-2);
+  const hours = ('0' + date.getHours()).slice(-2);
+  const minutes = ('0' + date.getMinutes()).slice(-2);
+  this.endDateTimeMin = `${year}-${month}-${day}T${hours}:${minutes}`;
+}
 
   transition(){
     this.isLinear = true ;
@@ -151,15 +188,16 @@ export class MultiformsComponent  implements OnInit{
   
   // toma los valores que se emiten del nombre img y los agg al FormGroup campo
   onFileSelected(e) {
-    alert('nombre recibido' + e.nombre)
+    alert('tipo archivo input' + e.imgFile)
     this.CandidatoFileName = e.nombre;
     this.outImgCandidato = e.img
+
     this.outImgFileCandidato = e.imgFile
     this.dataSrcCandidato = e.dataSrc
   }
 
   onFileSelectedPartido(e) {
-    alert('can recibido' + e.nombre)
+    alert('can recibido' + e.imgFile)
     this.PartidoPoliticoFileName = e.nombre;
     this.outImgPartidoPolitico = e.img
     this.outImgFilePartidoPolitico = e.imgFile
@@ -170,7 +208,8 @@ export class MultiformsComponent  implements OnInit{
     if (event.target.files.length > 0) {
       this.fileCsv = event.target.files[0];
     }
-    alert(this.fileCsv)
+    this.checkErrors('votantes','excel')
+
   }
 
 
@@ -195,7 +234,7 @@ export class MultiformsComponent  implements OnInit{
         imgPartidoPolitoco:this.outImgPartidoPolitico,
 
         imgFileCandidato: this.outImgFileCandidato , 
-        imgFilePartidoPolitoco:this.outImgFilePartidoPolitico,
+        imgFilePartidoPolitico:this.outImgFilePartidoPolitico,
 
         dataSrcCandidato: this.dataSrcCandidato,
         dataSrcPartidoPolitico : this.dataSrcPartidoPolitico
@@ -237,8 +276,8 @@ export class MultiformsComponent  implements OnInit{
     alert('editar'+ res)
     this.candidatosForm.get('nombre').setValue(res[0]['nombre'])
     this.candidatosForm.get('nombrePartidoPolitico').setValue(res[0]['nombrePartidoPolitico'])
-    this.candidatosForm.get('fotoCandidato').setValue(res[0]['fotoCandidato'])
-    this.candidatosForm.get('fotoPartidoPolitico').setValue(res[0]['fotoPartidoPolitico'])
+    this.candidatosForm.get('fotoCandidato').setValue(res[0]['imgFileCandidato'])
+    this.candidatosForm.get('fotoPartidoPolitico').setValue(res[0]['imgFilePartidoPolitico'])
     this.idEditar=id  
   }
 
@@ -389,7 +428,7 @@ checkErrors(grupo:string,campo:string) {
   this.listadoErroresFormulario[grupo][campo]= []
   const errores = this.getAllErrors(this.Empregister.get(grupo) as FormGroup, campo)[campo];
   if (errores['required'])  this.listadoErroresFormulario[grupo][campo].push('Campo requerido')
-  if (errores['minlength']) this.listadoErroresFormulario[grupo][campo].push('Minímo '+ errores['minlength']['requiredLength'])
+  if (errores['minlength']) this.listadoErroresFormulario[grupo][campo].push('Minímo '+ errores['minlength']['requiredLength']+' caracteres' )
   console.log(this.listadoErroresFormulario[grupo][campo])
   // console.log(listaErrores)
   // return listaErrores
@@ -438,32 +477,58 @@ restoreValidatorsToCandidatos() {
 
 
 sendProceso(){
-
-  let tituloForm = {
-    Titulo: this.tituloForm.get('tituloName').value,
-    FechaInicio: this.tituloForm.get('fechaInicio').value,
-    FechaFin: this.tituloForm.get('fechaFin').value,
-    ResultadoPublico: this.tituloForm.get('resultadoPublico').value
-  }
-
-  let candidatosForm = this.listCandidatosToJson.map( candidato => ({
-    nombre: candidato.nombre,
-    nombrePartidoPolitico: candidato.nombrePartidoPolitico,
-    fotoCandidato: candidato.fotoCandidato,
-    fotoPartidoPolitico: candidato.fotoPartidoPolitico,
-    fileCandidato: candidato.imgFileCandidato as File,
-    filePartidoPolitoco: candidato.imgFilePartidoPolitoco as File
+  
+  if(this.votantesForm.valid){
     
-  }))
+      const formData = new FormData();
+    
+      // Agregar datos del título al FormData
+      formData.append('Titulo', this.tituloForm.get('tituloName').value);
+      formData.append('FechaInicio', this.tituloForm.get('fechaInicio').value);
+      formData.append('FechaFin', this.tituloForm.get('fechaFin').value);
+      formData.append('ResultadoPublico', this.tituloForm.get('resultadoPublico').value);
+      console.log(this.listCandidatosToJson)
+      // Agregar datos de los candidatos al FormData
+      this.listCandidatosToJson.forEach((candidato, index) => {
+        formData.append(`candidatos[${index}].Nombre`, candidato.nombre);
+        formData.append(`candidatos[${index}].NombrePartidoPolitico`, candidato.nombrePartidoPolitico);
+        formData.append(`candidatos[${index}].FotoCandidato`, candidato.fotoCandidato);
+        formData.append(`candidatos[${index}].FotoPartidoPolitico`, candidato.fotoPartidoPolitico);
+        formData.append(`candidatos[${index}].FileCandidato`,  candidato.imgFileCandidato as File);
+        formData.append(`candidatos[${index}].FilePartidoPolitico`, candidato.imgFilePartidoPolitico  as File);
+      });
+    
+      formData.append('fileCsv', this.fileCsv);
+    
+    
+    
+      // fetch('https://localhost:5001/api/proceso/crear',)
+    
+      // const headers = new HttpHeaders({
+      //   'Content-Type': 'multipart/form-data'  
+      // });
+      const opcionesFetch: RequestInit = {
+        method: 'POST',
+        body: formData,
+        // No es necesario configurar manualmente el Content-Type con FormData
+      };
+      
+      fetch('https://localhost:5001/api/proceso/crear', opcionesFetch)
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.error('Error en la solicitud fetch:', error);
+          // Manejar errores de la solicitud fetch
+        });
 
-  let formData: FormData = new FormData();
-
-  formData.append('fileCsv', this.fileCsv);
-  formData.append('proceso', JSON.stringify(tituloForm));
-  formData.append('candidatos', JSON.stringify(candidatosForm));
-
-  this.crearProceso(formData)
-
+  }else{
+    this.checkErrors('votantes','excel')
+    this.toastService.showNotification("Por favor, sube el documento.","Cerrar", 2500)
+ 
+  }
+  
+  // this.http.post("https://localhost:5001/api/proceso/crear", formData)
 
 }
 
@@ -473,5 +538,24 @@ crearProceso(obj:any){
 }
 
 
+
+
+
 }
 
+
+export class ProcesoDto{
+  Titulo:string
+  FechaInicio:string
+  FechaFin:string
+  ResultadoPublico:string
+}
+
+export class Candidatos {
+  Nombre:string
+  NombrePartidoPolitico
+  FotoCandidato
+  FotoPartidoPolitico
+  FilePartidoPolitoco
+  FileCandidato
+}
