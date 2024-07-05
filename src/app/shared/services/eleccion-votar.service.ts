@@ -32,4 +32,14 @@ export class EleccionVotarService {
 
 
 
+  sufragar(data:any){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post("https://localhost:5001/sufragio",data , { headers: headers } )
+  
+  }
+
+
 }

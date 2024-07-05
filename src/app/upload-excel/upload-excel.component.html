@@ -1,13 +1,27 @@
-<!-- <mat-form-field>
-    <input id="fileSelect" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
-</mat-form-field> -->
-
-    <!-- <input type="file" class="file-input" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-    (change)="onFileSelected($event)" #fileUpload> -->
-
+<!-- app.component.html -->
+<div>
+    <h2>Subir Archivo</h2>
     <input type="file" (change)="onFileSelected($event)">
-    <button (click)="onUpload()">Upload</button>
-    <!-- <button (click)="getData()">ver</button>
-    <button (click)="enviarString()">ver post</button> -->
-
-<iframe src="https://localhost:5001/hangfire/" width="800px" height="500px" frameborder="0"></iframe>
+    <button (click)="addFile()">Agregar</button>
+  </div>
+  
+  <div *ngIf="files.length > 0">
+    <h2>Archivos Subidos</h2>
+    <ul>
+      <li *ngFor="let file of files; let i = index">
+        <span>{{ file.name }}</span>
+        <button (click)="editFile(i)">Editar</button>
+      </li>
+    </ul>
+  </div>
+  
+  <div *ngIf="editMode">
+    <h2>Editar Archivo</h2>
+    <p>Nombre del archivo: {{ files[editIndex]?.name }}</p>
+    <div *ngIf="isImage(files[editIndex]?.file)">
+      <img [src]="files[editIndex]?.fileUrl" alt="Imagen" width="100">
+    </div>
+    <input type="file" (change)="onFileSelected($event)">
+    <button (click)="updateFile()">Actualizar</button>
+  </div>
+  

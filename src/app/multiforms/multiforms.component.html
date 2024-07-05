@@ -127,8 +127,8 @@
                     <div class="d-flex flex-wrap justify-content-center" >
                       <div class="row" style="width: 45vw;">
                         <div class="col-12">
-                          <h3 *ngIf="edit != true" class="color-primary h4 fw-bold">Registrar Candidatos y P.P</h3>
-                          <h3 *ngIf="edit" class="color-primary h4 fw-bold">Editar Candidatos y P.P</h3>
+                          <h3 *ngIf="edit != true" class="color-primary h4 fw-bold">Creación de Candidatos</h3>
+                          <h3 *ngIf="edit" class="color-primary h4 fw-bold">Edición de Candidatos</h3>
           
                         </div>
           
@@ -136,9 +136,8 @@
           
                           <div class="d-flex justify-content-around w-auto">
           
-          
                             <div class="form-floating ">
-                              <input class="form-control bg-light" 
+                              <input class="form-control bg-light text-capitalize" 
                               (focus)="checkErrors('candidatos','nombre')"
                               (input)="checkErrors('candidatos','nombre')"
                               (input)="inputText($event)"
@@ -156,9 +155,36 @@
           
                            <div class="mb-5">
                             <mat-label>
-                              <app-upload-file [mostrarImg]="mostrarImagenCandidato"  (cambiarView)="getEstadoVerImgCandidato($event)"  (outInputValor)="onFileSelected($event)"></app-upload-file>
-                                <input #fotoCandidato type="text" [readOnly]="true" [ngModel]="CandidatoFileName"  class="d-none visually-hidden" matInput formControlName="fotoCandidato">
+                              <div class="image-upload-container">
+                                <input (input)="onFileSelected($event)" 
+                                #fotoCandidato type="file"  
+                                accept=".png, .jpg" 
+                                class="d-none" 
+                                formControlName="fotoCandidato">
+
+                                <button type="button" class="btn bg-primary-color btn-action  text-white primary-color text-center" (click)="fotoCandidato.click()">
+                                  <div class="d-flex ">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-file-earmark-image m-auto p-0 mx-1" viewBox="0 0 16 16">
+                                      <path d="M6.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+                                      <path d="M14 14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zM4 1a1 1 0 0 0-1 1v10l2.224-2.224a.5.5 0 0 1 .61-.075L8 11l2.157-3.02a.5.5 0 0 1 .76-.063L13 10V4.5h-2A1.5 1.5 0 0 1 9.5 3V1z"/>
+                                    </svg>Subir 
+                                  </div>
+                                </button>
+
+                                <div class="mt-4" *ngIf="imagePreviewCandidatoEdit != '' ">
+                                  <img [src]="imagePreviewCandidatoEdit" width="100px" height="100px" alt="Vista previa de la imagen" class="image-preview rounded-circle">
+                                  <p class="fs-mini text-center primary-color container-fluid">{{ imageNameCandidatoEdit }}</p>
+                                </div>
+
+                                <div class="mt-4"  *ngIf="imagePreviewCandidato != '' && mostrarImagenCandidato">
+                                  <img [src]="imagePreviewCandidato" width="100px" height="100px" alt="Vista previa de la imagen" class="image-preview rounded-circle">
+                                  <p class="fs-mini text-center primary-color container-fluid">{{ imageNameCandidato }}</p>
+                                </div>
+                              
+                              </div>
+                              
                                 <mat-error  *ngIf="Empregister.get('candidatos').get('fotoCandidato').invalid" style="font-size: 12px !important; margin: 0; padding: 0; color: #c480ff;" >Foto obligatoria</mat-error>
+                              
                               </mat-label>
           
                           </div>
@@ -171,16 +197,15 @@
               
                  
                  
-                        <div class="justify-content-center mt-2 col-xl-6  col-sm-12" style="height: 40vh;">
+                        <div class="justify-content-center mt-2 col-xl-6  col-sm-12" style="height: 50%;">
                           <div class="d-flex justify-content-around w-auto">
                               
                             <div class="form-floating ">
-                              <input class="form-control bg-light" 
+                              <input class="form-control bg-light text-capitalize" 
                               (focus)="checkErrors('candidatos','nombrePartidoPolitico')"
                               (input)="checkErrors('candidatos','nombrePartidoPolitico')"
-                              (input)="inputText($event)"
                               type="text" id="floatingInputnombrePartidoPolitico" placeholder="Elecciones precidenciales" formControlName="nombrePartidoPolitico">
-                              <label for="floatingInputnombrePartidoPolitico">Nombre P.P</label>        
+                              <label for="floatingInputnombrePartidoPolitico">Nombre Lista</label>        
                             </div>  
               
                           </div>
@@ -192,13 +217,43 @@
                            </div>   
           
                            <div class="mb-5">
-                                <app-upload-file   [mostrarImg]="mostrarImagenPatidoPolitico" (cambiarView)="getEstadoVerImgPartidoPolitico($event)" (outInputValor)="onFileSelectedPartido($event)" ></app-upload-file>
-                                <input #fotoPartido type="text" [ngModel]="PartidoPoliticoFileName" class="visually-hidden d-none" matInput formControlName="fotoPartidoPolitico">
+                            <mat-label>
+                              <div class="image-upload-container">
+                                <input (change)="onFileSelectedPartido($event)" 
+                                #fotoPartido type="file"
+                                class="d-none" 
+                                accept=".png, .jpg" 
+                                formControlName="fotoPartidoPolitico">
+
+                                <button type="button" class="btn bg-primary-color btn-action  text-white primary-color text-center" (click)="fotoPartido.click()">
+                                  <div class="d-flex ">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-file-earmark-image m-auto p-0 mx-1" viewBox="0 0 16 16">
+                                      <path d="M6.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+                                      <path d="M14 14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zM4 1a1 1 0 0 0-1 1v10l2.224-2.224a.5.5 0 0 1 .61-.075L8 11l2.157-3.02a.5.5 0 0 1 .76-.063L13 10V4.5h-2A1.5 1.5 0 0 1 9.5 3V1z"/>
+                                    </svg>Subir 
+                                  </div>
+                                </button>
+
+
+                                <div class="mt-4" *ngIf="imagePreviewPartidoEdit != '' ">
+                                  <img [src]="imagePreviewPartidoEdit" width="100px" height="100px" alt="Vista previa de la imagen" class="image-preview rounded-circle">
+                                  <p class="fs-mini text-center primary-color container-fluid">{{ imageNamePartidoEdit }}</p>
+                                </div>
+
+                                <div class="mt-4"  *ngIf="imagePreviewPartido != '' && mostrarImagenPatidoPolitico">
+                                  <img [src]="imagePreviewPartido" width="100px" height="100px" alt="Vista previa de la imagen" class="image-preview rounded-circle">
+                                  <p class="fs-mini text-center primary-color container-fluid">{{ imageNamePartido }}</p>
+                                </div>
+                              
+                              </div>
+                              
+                                <mat-error  *ngIf="Empregister.get('candidatos').get('fotoCandidato').invalid" style="font-size: 12px !important; margin: 0; padding: 0; color: #c480ff;" >Foto obligatoria</mat-error>
+                              
+                              </mat-label>
           
-                                <mat-error *ngIf="Empregister.get('candidatos').get('fotoPartidoPolitico').invalid" style="font-size: 12px !important; margin: 0; padding: 0; color: #c480ff;"  >Foto obligatoria</mat-error>
-                                
-                                
                           </div>
+                
+              
                 
               
               
@@ -249,7 +304,7 @@
                       </div>
           
           
-                      <div class="rounded-end border-start border-end" style="width: 45vw;">
+                      <div class="rounded-end border-start" style="width: 50%;">
                         <h3 class="color-primary h4 fw-bold" >Lista de Candidatos</h3>
                         
           
@@ -298,14 +353,15 @@
           
           
           
-                    <div class="mt-4">
-                      <button style="width: 10vw;" class="btn btn-action bg-primary-color text-white" matStepperPrevious>Atras</button> | 
-                      <button style="width: 10vw;" class="btn btn-action bg-primary-color text-white" (click)="goToVotantes()"  >Siguiente</button>
-                    </div>
-          
-          
+        
                  
                   </div>
+                  <div style="margin-left: -28px;" class="mt-5">
+                    <button style="width: 10vw;" class="btn btn-action bg-primary-color text-white" matStepperPrevious>Atras</button> | 
+                    <button style="width: 10vw;" class="btn btn-action bg-primary-color text-white" (click)="goToVotantes()"  >Siguiente</button>
+                  </div>
+      
+      
                 </mat-step>
           
 
@@ -393,3 +449,4 @@
     </mat-stepper>
   </form>
 </div>
+

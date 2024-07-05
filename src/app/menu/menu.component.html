@@ -88,7 +88,7 @@
           <a class="color-white nav-link dropdown-toggle"  id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Consultas
           </a>
-          <div class="dropdown-menu position-absolute" style="min-width: 350px;margin-left: -150px;"   aria-labelledby="navbarDropdownMenuLink">
+          <div class="dropdown-menu position-absolute" style="min-width: 450px;margin-left: -150px;"   aria-labelledby="navbarDropdownMenuLink">
             <div class="row mt-2 rounded-1" style="border-radius: 17px;
             background: #ffffff;
             box-shadow:  3px 3px 12px #e6e6e6,
@@ -109,11 +109,12 @@
           </div>
         </li>
 
-        <li class="nav-item dropdown ">
+        <li class="nav-item dropdown" *ngIf="isUserAdmin">
           <a class="color-white nav-link dropdown-toggle"  id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Consultas
+            Administración
           </a>
-          <div class="dropdown-menu position-absolute" style="min-width: 350px;margin-left: -150px;"   aria-labelledby="navbarDropdownMenuLink">
+
+          <div class="dropdown-menu position-absolute" style="min-width:450px;margin-left: -150px;"   aria-labelledby="navbarDropdownMenuLink">
             <div class="row mt-2 rounded-1" style="border-radius: 17px;
             background: #ffffff;
             box-shadow:  3px 3px 12px #e6e6e6,
@@ -121,14 +122,19 @@
 
               <div class="col-5 m-auto p-0">
                 
-                  <img  class="m-0 p-0 m-auto" src="../../assets/img/image1.png" width="175px" height="150px" alt="">
+                  <img  class="m-0 p-0 m-auto" src="../../assets/img/admin.png" width="175px" height="150px" alt="">
                 
               </div>              
 
               <div class="col-7 m-auto ">
-                <a class="c-primary dropdown-item text-center" [routerLink]="['resultados']">lecciones</a>
-                <a class="c-primary dropdown-item text-center" [routerLink]="['resultados']">Resultados elecciones</a>
+                <a class="c-primary dropdown-item text-center" target="_blank" href="https://localhost:5001/hangfire/recurring">Panel de procesos</a>
+                <a class="c-primary dropdown-item text-center" target="_blank" href="https://localhost:5001/hangfire/recurring">Administrar Blockchain</a>
+
+                <a class="c-primary dropdown-item text-center" target="_blank" href="https://localhost:5001/hangfire/recurring">Reportes y estadisticas</a>
+                <a class="c-primary dropdown-item text-center" target="_blank" href="https://localhost:5001/hangfire/recurring">Configuración</a>
+
               </div>
+              
 
             </div>
           </div>

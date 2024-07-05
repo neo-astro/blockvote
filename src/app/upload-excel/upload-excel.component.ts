@@ -9,30 +9,49 @@ import { Observable } from 'rxjs';
   styleUrls: ['./upload-excel.component.css']
 })
 export class UploadExcelComponent {
-  
+  files: { id: string, name: string, file: File, fileUrl: string }[] = [];
   selectedFile: File | null = null;
-
-  constructor(private http: HttpClient , private procesoService : ProcesoService) {}
+  editMode: boolean = false;
+  editIndex: number = -1;
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
   }
 
-  onUpload() {
-
+  addFile() {
     if (this.selectedFile) {
-      const formData = new FormData();
-      formData.append('file', this.selectedFile, this.selectedFile.name);
-
-      this.http.post('https://localhost:5001/vrg', formData)
-        .subscribe(response => {
-          console.log(response);
-        });
+      const id = this.generateRandomId();
+      const fileUrl = URL.createObjectURL(this.selectedFile);
+      this.files.push({ id, name: this.selectedFile.name, file: this.selectedFile, fileUrl });
+      this.selectedFile = null;
     }
   }
 
+  editFile(index: number) {
+    this.editMode = true;
+    this.editIndex = index;
+    this.selectedFile = null;  // Reset selected file when editing
+  }
 
+  updateFile() {
+    if (this.editIndex !== -1) {
+      if (this.selectedFile) {
+        const fileUrl = URL.createObjectURL(this.selectedFile);
+        this.files[this.editIndex] = { id: this.files[this.editIndex].id, name: this.selectedFile.name, file: this.selectedFile, fileUrl };
+      }
+      this.editMode = false;
+      this.editIndex = -1;
+      this.selectedFile = null;
+    }
+  }
 
+  generateRandomId(): string {
+    return Math.random().toString(36).substring(2, 15);
+  }
+
+  isImage(file: File): boolean {
+    return file.type.startsWith('image/');
+  }
   // addProcesos2(){
   //   this.http.post('https://localhost:5001/crear2', '4')
   //   .subscribe(response => {
@@ -50,34 +69,5 @@ export class UploadExcelComponent {
   //     );
   // }
 
-  postData() {
-    let formData: FormData = new FormData();
-    formData.append('xd', 'xddd');
 
-    this.http.post('https://localhost:5001/crear3',formData )
-      .subscribe(
-        response => console.log('Respuesta POST:', response),
-        error => console.error('Error POST:', error)
-      );
-
-  }
-
-  sendString(data: string): Observable<any> {
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    const body = JSON.stringify({ data: data });
-    return this.http.post<any>('https://localhost:5001/crear3', body, { headers: headers });
-  }
-
-
-  enviarString(): void {
-    const miString = 'Este es el string que quiero enviar';
-    this.sendString(miString).subscribe({
-      next: (response) => {
-        console.log('Respuesta de la API:', response);
-      },
-      error: (error) => {
-        console.error('Error al enviar el string:', error);
-      }
-    });
-  }
 }

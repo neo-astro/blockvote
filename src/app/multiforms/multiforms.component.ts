@@ -15,6 +15,24 @@ import { ProcesoService } from '../shared/services/proceso.service';
 
 })
 export class MultiformsComponent  implements OnInit{
+
+  imagePreviewCandidato: string | ArrayBuffer =''
+  imagePreviewPartido: string | ArrayBuffer= ''
+  imageNameCandidato: string | null = null; 
+  imageNamePartido: string | null = null; 
+
+  mostrarImagenCandidato : boolean | null | ArrayBuffer = false 
+  mostrarImagenPatidoPolitico : boolean | null | ArrayBuffer = false 
+  
+
+  //edit
+  imagePreviewCandidatoEdit : string | ArrayBuffer =''
+  imagePreviewPartidoEdit:string| ArrayBuffer =''
+ 
+  imageNameCandidatoEdit:string
+  imageNamePartidoEdit:string
+
+
   fileCsv: File | null = null;
 
   startDateTime: string;
@@ -28,10 +46,8 @@ export class MultiformsComponent  implements OnInit{
   FormRegisterCandidato: FormGroup
   CandidatoFileName: string = '';
   PartidoPoliticoFileName: string = '';
-  mostrarImagenCandidato : boolean | null | ArrayBuffer = true 
-  mostrarImagenPatidoPolitico : boolean | null | ArrayBuffer = true 
-  
-  imgPreview : boolean | null | ArrayBuffer = true 
+
+
   
   // candidatos: CandidatosDto[] = []
   listCandidatosToJson:CandidatosFileDto[]=[]
@@ -116,20 +132,6 @@ export class MultiformsComponent  implements OnInit{
   date.setDate(date.getDate() + 1);
   let fechaMin  = new Date(date).toISOString().slice(0, 16);
   this.fechaActual = fechaMin
-
-
-
-  // const year = date.getFullYear();
-  // const month = ('0' + (date.getMonth() + 1)).slice(-2);
-  // const day = ('0' + date.getDate()).slice(-2);
-  // const hours = ('0' + date.getHours()).slice(-2);
-  // const minutes = ('0' + date.getMinutes()).slice(-2);
-  // const Fin = `${year}-${month}-${day}T${hours}:${minutes}`;
-  // fechaFin.value = Fin
-
-  // this.startDateTime = event.target.value;
-  // this.setEndDateTimeMin(new Date(this.startDateTime));
-  // this.InputFechaFin.nativeElement.value = new Date()
 }
 
 setEndDateTimeMin(date: Date) {
@@ -180,28 +182,69 @@ setEndDateTimeMin(date: Date) {
     this.mostrarImagenCandidato = e
   }
 
-  
   getEstadoVerImgPartidoPolitico(e){
     this.mostrarImagenPatidoPolitico = e
   }
 
-  
   // toma los valores que se emiten del nombre img y los agg al FormGroup campo
-  onFileSelected(e) {
-    alert('tipo archivo input' + e.imgFile)
-    this.CandidatoFileName = e.nombre;
-    this.outImgCandidato = e.img
+  onFileSelected(event:Event):void{
+    this.imagePreviewCandidatoEdit = ''
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0 && input.files[0].name != '') {
+      this.mostrarImagenCandidato = true
+      const file = input.files[0];
+      this.imageNameCandidato = file.name
+      const reader = new FileReader();
 
-    this.outImgFileCandidato = e.imgFile
-    this.dataSrcCandidato = e.dataSrc
+      reader.onload = () => {
+        this.imagePreviewCandidato = reader.result;
+
+        this.CandidatoFileName   = file.name;
+        this.outImgCandidato     = this.imageNameCandidato
+        this.outImgFileCandidato = file as File
+        this.dataSrcCandidato    = this.imagePreviewCandidato
+      }
+      reader.readAsDataURL(file);
+    }else{
+    alert('borro')
+    this.CandidatoFileName   = '';
+    this.outImgCandidato     = ''
+    this.outImgFileCandidato = null
+    this.dataSrcCandidato   = ''
+    this.mostrarImagenCandidato = false
   }
 
-  onFileSelectedPartido(e) {
-    alert('can recibido' + e.imgFile)
-    this.PartidoPoliticoFileName = e.nombre;
-    this.outImgPartidoPolitico = e.img
-    this.outImgFilePartidoPolitico = e.imgFile
-    this.dataSrcPartidoPolitico = e.dataSrc
+}
+
+  onFileSelectedPartido(event:Event): boolean {
+    this.imagePreviewPartidoEdit = ''
+
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.imageNamePartido = file.name
+      const reader = new FileReader();
+
+      this.mostrarImagenPatidoPolitico = true;
+      reader.onload = () => {
+        this.imagePreviewPartido = reader.result;  
+        this.PartidoPoliticoFileName   = file.name;
+        this.outImgPartidoPolitico     = this.imageNamePartido
+        this.outImgFilePartidoPolitico = file as File
+        this.dataSrcPartidoPolitico    = this.imagePreviewPartido
+      }
+      reader.readAsDataURL(file);
+      return true
+    }else{
+      alert('borro')
+      this.PartidoPoliticoFileName   = '';
+      this.outImgPartidoPolitico     = ''
+      this.outImgFilePartidoPolitico = null
+      this.dataSrcPartidoPolitico    = ''
+      this.mostrarImagenPatidoPolitico = false
+      return false
+    }
+
   }
 
   onFileSelectedExcel(event) {
@@ -215,10 +258,8 @@ setEndDateTimeMin(date: Date) {
 
   addCandidato() {
     this.restoreValidatorsToCandidatos()
+    
     if (this.candidatosForm.valid) {
-      this.mostrarImagenCandidato = false
-      this.mostrarImagenPatidoPolitico = false
-
       const candidato: CandidatosDto = {
         id: this.listCandidatosToJson.length + 1,
         nombre: this.candidatosForm.value.nombre,
@@ -226,7 +267,6 @@ setEndDateTimeMin(date: Date) {
         fotoCandidato: this.candidatosForm.value.fotoCandidato,
         fotoPartidoPolitico: this.candidatosForm.value.fotoPartidoPolitico,
       };
-      
       let itemListCandidatoJson: CandidatosFileDto= {
         ...candidato, 
 
@@ -239,24 +279,42 @@ setEndDateTimeMin(date: Date) {
         dataSrcCandidato: this.dataSrcCandidato,
         dataSrcPartidoPolitico : this.dataSrcPartidoPolitico
       }
-
+ 
       this.listCandidatosToJson.push(itemListCandidatoJson)
-      alert('lista can' + JSON.stringify(this.listCandidatosToJson))
       console.log('datos con img', itemListCandidatoJson)
-      this.listCandidatosToJson.push()
       this.candidatosForm.reset();
 
 
-      this.CandidatoFileName = ''
+
+      this.imagePreviewCandidato =''
+      this.imagePreviewPartido = ''
+      this.imageNameCandidato = ''; 
+      this.imageNamePartido ='';   
+
       this.PartidoPoliticoFileName = ''
+      this.outImgPartidoPolitico   = ''
+      this.outImgFilePartidoPolitico = null
+      this.dataSrcPartidoPolitico  = ''
+
+      this.CandidatoFileName  = ''
+      this.outImgCandidato    = ''
+      this.outImgFileCandidato = null
+      this.dataSrcCandidato   = ''
+
+
       this.inputCandidatoFoto.nativeElement.value = ''
       this.inputPartidoFoto.nativeElement.value = ''
+
+
+      this.mostrarImagenCandidato = false
+      this.mostrarImagenPatidoPolitico = false
+
       this.edit = false
       this.toastService.showNotification("Candidato añadio exitosamente","Cerrar", 5000)
     } else{
+      this.toastService.showNotification("Por favor, complete todos los campos del formulario de candidato.","Cerrar", 5000)
       this.checkErrors('candidatos','nombre')
       this.checkErrors('candidatos','nombrePartidoPolitico')
-      this.toastService.showNotification("Por favor, complete todos los campos del formulario de candidato.","Cerrar", 5000)
     }
 
    
@@ -272,43 +330,116 @@ setEndDateTimeMin(date: Date) {
   }
   btnEdit(id:any){
     this.edit= true
-    let res =this.listCandidatosToJson.filter((e)=>e.id == id)
-    alert('editar'+ res)
-    this.candidatosForm.get('nombre').setValue(res[0]['nombre'])
-    this.candidatosForm.get('nombrePartidoPolitico').setValue(res[0]['nombrePartidoPolitico'])
-    this.candidatosForm.get('fotoCandidato').setValue(res[0]['imgFileCandidato'])
-    this.candidatosForm.get('fotoPartidoPolitico').setValue(res[0]['imgFilePartidoPolitico'])
+    let res  =this.listCandidatosToJson.filter((e:CandidatosFileDto)=> e.id == id )[0]
+
+    this.imagePreviewCandidatoEdit = `${res.dataSrcCandidato}`
+    this.imagePreviewPartidoEdit = `${res.dataSrcPartidoPolitico}`
+
+    this.imageNamePartidoEdit = res.fotoPartidoPolitico
+    this.imageNameCandidatoEdit = res.fotoCandidato 
+
+
+    this.candidatosForm.get('nombre').setValue(res.nombre)
+    this.candidatosForm.get('nombrePartidoPolitico').setValue(res.nombrePartidoPolitico)
+
     this.idEditar=id  
   }
 
   editCandidato(){
-    this.restoreValidatorsToCandidatos()
-    if (this.candidatosForm.valid && this.edit ==true) {
+    this.removeValidatorsFile()
 
-      this.mostrarImagenCandidato = false
-      this.mostrarImagenPatidoPolitico = false
-      let nuevosValores = { 
-        nombre:this.candidatosForm.value.nombre,
-        nombrePartidoPolitico: this.candidatosForm.value.nombrePartidoPolitico,
-        fotoCandidato: this.candidatosForm.value.fotoCandidato,
-        fotoPartidoPolitico: this.candidatosForm.value.fotoPartidoPolitico,
-        imgCandidato : this.outImgCandidato ,imgPartidoPolitoco:this.outImgPartidoPolitico 
-        , imgFileCandidato: this.outImgFileCandidato , imgFilePartidoPolitoco:this.outImgFilePartidoPolitico
-        ,dataSrcCandidato: this.dataSrcCandidato , dataSrcPartidoPolitico : this.dataSrcPartidoPolitico
-      };
+    if (this.candidatosForm.valid) {
+
+      if(this.imagePreviewCandidato == '' && this.imagePreviewPartido != '')
+      {
+        alert('no actualiza foto candidato')
+        let nuevosValores = { 
+          nombre:this.candidatosForm.value.nombre,
+          nombrePartidoPolitico: this.candidatosForm.value.nombrePartidoPolitico,
+
+          fotoPartidoPolitico: this.candidatosForm.value.fotoPartidoPolitico,
+          imgFilePartidoPolitoco:this.outImgFilePartidoPolitico,
+          dataSrcPartidoPolitico : this.dataSrcPartidoPolitico
+        };
+        this.listCandidatosToJson = this.listCandidatosToJson.map(obj => {
+          if(obj.id == this.idEditar){
+            return {...obj, ...nuevosValores} 
+          } else{
+            return obj
+          }
+  
+        })
+      }
       
-      this.listCandidatosToJson = this.listCandidatosToJson.map(obj => {
-        if(obj.id == this.idEditar){
-          return {...obj, ...nuevosValores} 
-        } else{
-          return obj
-        }
+      if(this.imagePreviewCandidato != '' && this.imagePreviewPartido == ''){
+        alert('no actualiza foto partido politico')
+        let nuevosValores = { 
+          nombre:this.candidatosForm.value.nombre,
+          nombrePartidoPolitico: this.candidatosForm.value.nombrePartidoPolitico,
 
-      })
-      console.log()
+          fotoCandidato: this.candidatosForm.value.fotoCandidato,
+          imgFileCandidato:this.outImgFileCandidato,
+          dataSrcCandidato : this.dataSrcCandidato
+        };
+        this.listCandidatosToJson = this.listCandidatosToJson.map(obj => {
+          if(obj.id == this.idEditar){
+            return {...obj, ...nuevosValores} 
+          } else{
+            return obj
+          }
+  
+        })
+      }
+      if(this.imagePreviewCandidato != '' && this.imagePreviewPartido != ''){
+        alert('ACTUALIZANDO TODO')
+        let nuevosValores = { 
+          nombre:this.candidatosForm.value.nombre,
+          nombrePartidoPolitico: this.candidatosForm.value.nombrePartidoPolitico,
+
+          fotoPartidoPolitico: this.candidatosForm.value.fotoPartidoPolitico,
+          imgFilePartidoPolitoco:this.outImgFilePartidoPolitico,
+          dataSrcPartidoPolitico : this.dataSrcPartidoPolitico,
+
+          fotoCandidato: this.candidatosForm.value.fotoCandidato,
+          imgFileCandidato:this.outImgFileCandidato,
+          dataSrcCandidato : this.dataSrcCandidato
+        };
+        this.listCandidatosToJson = this.listCandidatosToJson.map(obj => {
+          if(obj.id == this.idEditar){
+            return {...obj, ...nuevosValores} 
+          } else{
+            return obj
+          }
+  
+        })
+      }
+      if (this.imagePreviewCandidato == '' && this.imagePreviewPartido == '') {
+          alert('editando todo nombres')
+        let nuevosValores = { 
+          nombre:this.candidatosForm.value.nombre,
+          nombrePartidoPolitico: this.candidatosForm.value.nombrePartidoPolitico,
+        };
+        
+        this.listCandidatosToJson = this.listCandidatosToJson.map(obj => {
+          if(obj.id == this.idEditar){
+            return {...obj, ...nuevosValores} 
+          } else{
+            return obj
+          }
+  
+        })
+      }
+
+      this.imagePreviewPartidoEdit = ''
+      this.imagePreviewCandidatoEdit = ''
 
       this.candidatosForm.reset();
 
+      this.mostrarImagenCandidato = false
+      this.mostrarImagenPatidoPolitico = false
+
+      this.imageNameCandidatoEdit= ''
+      this.imageNamePartidoEdit= ''
 
       this.CandidatoFileName = ''
       this.PartidoPoliticoFileName = ''
@@ -318,9 +449,9 @@ setEndDateTimeMin(date: Date) {
       this.toastService.showNotification("Actualizado exitosamente","Cerrar", 5000)
       this.idEditar=0
     }else{
+      this.toastService.showNotification("Por favor, complete todos los campos del formulario de candidato.","Cerrar", 5000)
       this.checkErrors('candidatos','nombre')
       this.checkErrors('candidatos','nombrePartidoPolitico')
-      this.toastService.showNotification("Por favor, complete todos los campos del formulario de candidato.","Cerrar", 5000)
     }
 
 
@@ -328,21 +459,12 @@ setEndDateTimeMin(date: Date) {
   }
 
   cancelarEdit(){
-    alert('cancelando id' + this.idEditar)
-        this.candidatosForm.reset();
+      this.candidatosForm.reset();
 
-
-      this.CandidatoFileName = ''
-      this.PartidoPoliticoFileName = ''
-      this.inputCandidatoFoto.nativeElement.value = ''
-      this.inputPartidoFoto.nativeElement.value = ''
+      this.imagePreviewPartidoEdit = ''
+      this.imagePreviewCandidatoEdit= ''
       this.edit = false
       this.idEditar = 0
-
-    
-
-
-
   }
 
   goToVotantes() {
@@ -463,6 +585,14 @@ removeValidatorsFromCandidatos() {
     candidatosGroup.get(key)?.clearValidators();
     candidatosGroup.get(key)?.updateValueAndValidity();
   });
+}
+
+removeValidatorsFile() {
+  const candidatosGroup = this.Empregister.get('candidatos') as FormGroup;
+  candidatosGroup.get('fotoCandidato')?.clearValidators();
+  candidatosGroup.get('fotoCandidato')?.updateValueAndValidity();
+  candidatosGroup.get('fotoPartidoPolitico')?.clearValidators();
+   candidatosGroup.get('fotoPartidoPolitico')?.updateValueAndValidity();
 }
 
 restoreValidatorsToCandidatos() {

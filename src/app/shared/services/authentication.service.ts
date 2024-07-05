@@ -29,22 +29,19 @@ export class AuthenticationService {
     this.authChangeSub.next(isAuthenticated);
   }
   public logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("token");   
     this.sendAuthStateChangeNotification(false);
   }
 
   public isUserAuthenticated = (): boolean => {
     const token = localStorage.getItem("token");
- 
     return token && !this.jwtHelper.isTokenExpired(token);
   }
 
   public isUserAdmin = (): boolean => {
     const token = localStorage.getItem("token");
     const decodedToken = this.jwtHelper.decodeToken(token);
-    const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
-    
-    return role === 'Administrator';
+    return decodedToken.roles == 'Administrador';
   }
 
   private createCompleteRoute = (route: string, envAddress: string) => {

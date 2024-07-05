@@ -12,12 +12,14 @@ export class MenuComponent implements OnInit {
   isCollapsed: boolean = false;
   isUserAuthenticated: boolean;
   currentRoute: string;
+  isUserAdmin:boolean
 
   
   constructor(private authService: AuthenticationService, private router: Router,private _snackBar: MatSnackBar) {
     this.authService.authChanged
     .subscribe(res => {
       this.isUserAuthenticated = res;
+      this.isUserAdmin = res ? this.isUserAdmin = this.authService.isUserAdmin(): false
     })
 
     this.router.events.subscribe(event => {
@@ -26,11 +28,13 @@ export class MenuComponent implements OnInit {
       }
     });
 
-    // _snackBar.open('Message archived')
+    // this.isUserAdmin = this.authService.isUserAdmin()
     
    }
 
   ngOnInit(): void {
+
+    
     this.authService.authChanged
     .subscribe(res => {
       this.isUserAuthenticated = res;

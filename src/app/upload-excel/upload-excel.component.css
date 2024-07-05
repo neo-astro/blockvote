@@ -1,3 +1,8 @@
-.file-input {
-    display: none;
-  }
+/* app.component.css */
+div {
+  margin-bottom: 20px;
+}
+
+button {
+  margin-left: 10px;
+}

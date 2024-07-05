@@ -50,6 +50,7 @@ import { UploadExcelComponent } from './upload-excel/upload-excel.component';
 import { QrAccessComponent } from './qr-access/qr-access.component';
 import { PipeFullText } from './shared/helpers/PipeFullText';
 import { ProcesosComponent } from './pages/procesos/procesos.component';
+import { AdminPanelComponent } from './pages/admin-panel/admin-panel.component';
 
 
 export function tokenGetter() {
@@ -75,7 +76,8 @@ export function tokenGetter() {
     UploadFileComponent,
     UploadExcelComponent,
     QrAccessComponent,
-    ProcesosComponent
+    ProcesosComponent,
+    AdminPanelComponent
   ],
   imports: [
     //modulos de ui
@@ -113,6 +115,7 @@ export function tokenGetter() {
       { path: 'votacion', component:QrAccessComponent},
       { path: 'votacion/votar', component:VotacionComponent},
       { path: 'resultados', component:ResultadosComponent},
+      { path: 'admin', component:AdminPanelComponent},
 
 
       { path: 'authentication', loadChildren: () => import('./modules/authentication/authentication.module').then(m => m.AuthenticationModule) },

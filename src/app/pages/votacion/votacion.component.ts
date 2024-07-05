@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EleccionVotarService } from 'src/app/shared/services/eleccion-votar.service';
@@ -15,15 +16,17 @@ export class VotacionComponent implements OnInit, AfterViewInit {
   eleccionAprobada: boolean;
   votaOrNo: boolean = null;
   timeValidoVotar: boolean;
-
-  fechaHoraActual: string = new Date().toLocaleString();
-  fechaHoraInicio: string;
-  fechaHoraFin: string;
+  yaSufrago: boolean;
+  fechaHoraActual: Date = new Date();
+  fechaHoraInicio: Date;
+  fechaHoraFin: Date;
   resCandidatos: any;
   dataInfo: any;
   selectedCandidato: any = null;
 
-  constructor(private route: ActivatedRoute, private router: Router, private eleccionVotarService: EleccionVotarService, private _toastService: ToastServiceService) {}
+  enviarSufragio:boolean = false
+
+  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router, private eleccionVotarService: EleccionVotarService, private _toastService: ToastServiceService) {}
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
@@ -33,8 +36,9 @@ export class VotacionComponent implements OnInit, AfterViewInit {
     });
 
     this.consultarSiVota();
+
     setInterval(() => {
-      this.fechaHoraActual = new Date().toLocaleString();
+      this.fechaHoraActual = new Date();
     }, 1000);
 
     const dato: idProcesoDto = { idProceso: Number.parseInt(this.idProceso) };
@@ -56,9 +60,11 @@ export class VotacionComponent implements OnInit, AfterViewInit {
         this.dataInfo = res[0];
         this.votaOrNo = res[0] !== undefined;
 
-        let fechaInicio = new Date(res[0].procesoElectoral.fechaInicio).toLocaleString();
-        let fechaFin = new Date(res[0].procesoElectoral.fechaFin).toLocaleString();
-        if (this.fechaHoraActual >= fechaInicio && this.fechaHoraActual <= fechaFin) {
+        this.fechaHoraInicio = new Date(res[0].procesoElectoral.fechaInicio);
+        this.fechaHoraFin = new Date(res[0].procesoElectoral.fechaFin);
+        this.yaSufrago = res[0]['sufrago'];
+        
+        if (this.fechaHoraActual > this.fechaHoraInicio && this.fechaHoraActual < this.fechaHoraFin) {
           this.timeValidoVotar = true;
         } else {
           this.timeValidoVotar = false;
@@ -68,7 +74,6 @@ export class VotacionComponent implements OnInit, AfterViewInit {
       },
       error => {
         console.error('Error al consultar si vota:', error);
-        alert(error);
       }
     );
   }
@@ -82,29 +87,54 @@ export class VotacionComponent implements OnInit, AfterViewInit {
       },
       error => {
         console.error('Error candidatos:', error);
-        alert(error);
       }
     );
   }
 
   onCheckboxChange(candidato: any) {
     if (this.selectedCandidato === candidato) {
-      this.selectedCandidato = null; 
+      this.selectedCandidato = null;
     } else {
       this.selectedCandidato = candidato;
     }
   }
 
   enviarVoto(event: Event) {
+    this.enviarSufragio=true
     event.preventDefault();
     if (this.selectedCandidato) {
-      console.log('Candidato seleccionado:', this.selectedCandidato);
+      let data = {
+        voto: this.selectedCandidato.nombre,
+        idProceso: this.idProceso,
+        secretKey: this.secretKey
+      };
+
+      this.sufrgar(data);
     } else {
-      console.log('No hay candidato seleccionado');
-    }
-    alert('enviado');
-    this.router.navigate(["/"]);
-    this._toastService.showNotification('¡Voto enviado satisfactoriamente!');
+      let data = {
+        voto: '',
+        idProceso: this.idProceso,
+        secretKey: this.secretKey
+      };
+      }
+      setTimeout(() => {
+        this.router.navigate(["/"]);
+        this._toastService.showNotification('¡Voto enviado satisfactoriamente!');
+      }, 3000);
+  }
+
+  public async sufrgar(data: any) {
+
+    this.eleccionVotarService.sufragar(data).subscribe(
+      (res: any) => {
+        this.resCandidatos = res;
+        console.log('candidatos res', res);
+        return res;
+      },
+      error => {
+        console.error('Error candidatos:', error);
+      }
+    );
   }
 }
 

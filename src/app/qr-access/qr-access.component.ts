@@ -30,8 +30,11 @@ export class QrAccessComponent  implements  AfterViewInit{
 
   ngOnDestroy(): void {
     if (this.html5QrcodeScanner) {
-      this.html5QrcodeScanner.clear(); // Asegúrate de limpiar el escáner
+        this.html5QrcodeScanner.clear();
     }
+    this.html5QrcodeScanner.clear();
+
+    alert('adios')
   }
 
   onScanSuccess(decodedText: string, decodedResult: any): void {
