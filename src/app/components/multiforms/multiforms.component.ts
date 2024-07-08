@@ -54,19 +54,19 @@ export class MultiformsComponent  implements OnInit{
   CandidatoFileName: string = '';
   PartidoPoliticoFileName: string = '';
 
-  erroresHoraInicio : string[] = []
-  erroresHoraFin : string[]
+  erroresHoraInicio  = ''
+  erroresHoraFin     = ''
 
   horaActual: Date = new Date()
 
   horaInicio: string
   horaFin: string
-  horaMinimaApertura: string
+  tiempoParaSufragar: string
 
   HoraVotarApi = 5
 
   //la que calculo hora hoy + hora api
-  horaValidaParaVotar
+  horarioDisponibleVotar
   msmHoraDebeIniciar: any = ''
   msmHoraDebeterminar: any = ''
 
@@ -108,7 +108,6 @@ export class MultiformsComponent  implements OnInit{
 
   } 
   horaPorDefectoInicio: string 
-  horaPorDefectoFin: string  
 
   @ViewChild('fotoCandidato') inputCandidatoFoto!: ElementRef;
   @ViewChild('fotoPartido') inputPartidoFoto!: ElementRef;
@@ -116,8 +115,10 @@ export class MultiformsComponent  implements OnInit{
 
   @ViewChild('InputFechaInicio') InputFechaInicio!: ElementRef;
   @ViewChild('InputFechaFin') InputFechaFin!:  ElementRef<HTMLInputElement>;
+
+
   @ViewChild('inputHoraFin') inputHoraFin!:  ElementRef;
-  @ViewChild('inputHoraIncio') inputHoraIncio!:  ElementRef;
+  @ViewChild('inputHoraInicio') inputHoraInicio!:  ElementRef;
   // @ViewChild('imgInput') imgInput: ElementRef<HTMLInputElement>;
   @ViewChild('stepper') stepper!: MatStepper;
   form1 :FormBuilder
@@ -161,14 +162,15 @@ export class MultiformsComponent  implements OnInit{
   setInterval(()=>{
     this.horaActual = new Date()
     let newDate = new Date(this.horaActual);
-    this.horaValidaParaVotar = new Date(newDate)
-    this.horaValidaParaVotar.setHours(newDate.getHours() + this.HoraVotarApi)
+    this.horarioDisponibleVotar = new Date(newDate)
+    this.horarioDisponibleVotar.setHours(newDate.getHours() + this.HoraVotarApi)
   },1000)
 
  }
 
- //validar fecha fin
+ //validar fecha inicio
  onStartDateTimeChange(event: any) {
+
   if(event.target.value==''){this.fechaActual = null}
   let date = new Date(event.target.value)
 
@@ -176,17 +178,26 @@ export class MultiformsComponent  implements OnInit{
   const year = newDate.getFullYear();
   const month = String(newDate.getMonth() + 1).padStart(2, '0');
   const day = String(newDate.getDate() + 1).padStart(2, '0');
+
+  //vaida fecha y min fecha 
   this.fechaComienzaEleccion = `${year}-${month}-${day}`;
   this.fechaTerminaEleccion= `${year}-${month}-${day}`
 
 
   //validar hora inicio
   if(this.InputFechaInicio.nativeElement.value === this.fechaComienzaEleccion ){
-    let hours = String(this.horaValidaParaVotar.getHours()).padStart(2, '0'); 
-    let minutes = String(this.horaValidaParaVotar.getMinutes()).padStart(2, '0'); 
-    let hora = parseInt(hours) 
-    let tiemporComenzarVotar =`${hora}:${minutes}`
+
+    let hours = String(this.horarioDisponibleVotar.getHours()).padStart(2, '0'); 
+    let minutes = String(this.horarioDisponibleVotar.getMinutes()).padStart(2, '0'); 
+
+    let tiemporComenzarVotar =`${hours}:${minutes}`
     this.msmHoraDebeIniciar= tiemporComenzarVotar
+    this.inputHoraInicio.nativeElement.value= `${hours}:${minutes}`
+    let tiempoParaSufragar = `${parseInt(hours) + this.HoraVotarApi}:${minutes}`
+    this.inputHoraFin.nativeElement.value= `${parseInt(hours) + this.HoraVotarApi}:${minutes}`
+    this.msmHoraDebeterminar= tiempoParaSufragar
+
+
   }
 
 }
@@ -194,12 +205,14 @@ export class MultiformsComponent  implements OnInit{
 onEndDateTimeChange(event:any){
   let fechaFin = event.target.value
   this.fechaTerminaEleccion=fechaFin
+
   if(fechaFin != this.InputFechaInicio.nativeElement.value){
     this.msmHoraDebeIniciar = ''
   } 
+
   if (fechaFin ===  this.fechaComienzaEleccion){
-    let hours = String(this.horaValidaParaVotar.getHours()).padStart(2, '0'); 
-    let minutes = String(this.horaValidaParaVotar.getMinutes()).padStart(2, '0'); 
+    let hours = String(this.horarioDisponibleVotar.getHours()).padStart(2, '0'); 
+    let minutes = String(this.horarioDisponibleVotar.getMinutes()).padStart(2, '0'); 
     let hora = parseInt(hours) 
     let tiemporComenzarVotar =`${hora}:${minutes}`
     this.msmHoraDebeIniciar= tiemporComenzarVotar
@@ -214,28 +227,38 @@ checkHoraInicio(event:Event){
   let dato:any = event.target as HTMLInputElement
   dato = dato.value
   // alert(dato)
-  this.horaInicio=dato
+  this.horaInicio = dato
   if(this.fechaTerminaEleccion ===  this.fechaComienzaEleccion){
-    const hours = String(this.horaValidaParaVotar.getHours()).padStart(2, '0'); 
-    const minutes = String(this.horaValidaParaVotar.getMinutes()).padStart(2, '0'); 
+
+
+    const hours = String(this.horarioDisponibleVotar.getHours()).padStart(2, '0'); 
+    const minutes = String(this.horarioDisponibleVotar.getMinutes()).padStart(2, '0'); 
     let tiempoMinParaVotar =`${hours}:${minutes}`
+    
 
     let horaEntretiempo = this.horaInicio.split(':')
-    let tiempoParaVotar =`${ parseInt(horaEntretiempo[0]) + 5}:${horaEntretiempo[1]}`
-    this.inputHoraFin.nativeElement.value =  `${parseInt(horaEntretiempo[0]) + 5}:${horaEntretiempo[1]}`
-    
-    this.horaMinimaApertura = tiempoParaVotar
+    let tiempoParaVotar =`${ parseInt(horaEntretiempo[0]) + this.HoraVotarApi}:${horaEntretiempo[1]}`
+
+    this.tiempoParaSufragar = tiempoParaVotar
+
+
+    this.inputHoraFin.nativeElement.value=`${parseInt(horaEntretiempo[0])+ this.HoraVotarApi}:${horaEntretiempo[1]}`
 
     if (this.compareHoras(dato,tiempoMinParaVotar) == false){
-      this.erroresHoraInicio.push('Verifique el rango de horas')
+      this.erroresHoraInicio ='Verifique el rango de horas'
       this.msmHoraDebeIniciar=tiempoMinParaVotar
     } else{
-      this.erroresHoraInicio = []
+      this.erroresHoraInicio = ''
       this.msmHoraDebeIniciar=''
+    }
+
+
+        
+    if (this.msmHoraDebeIniciar == '' && this.compareHoras(tiempoParaVotar,this.tiempoParaSufragar)){
+      this.msmHoraDebeterminar= ''
     }
   }
 
-  alert(this.horaMinimaApertura)
 
 
 
@@ -245,14 +268,16 @@ checkHoraInicio(event:Event){
 checkHoraFin(event:Event){
   let dato:any = event.target as HTMLInputElement
   dato = dato.value
+
   let horaEntretiempo = this.horaInicio.split(':')
   let tiempoParaVotar =`${ parseInt(horaEntretiempo[0]) + 5}:${horaEntretiempo[1]}`
-  this.horaMinimaApertura = tiempoParaVotar
+
+  this.tiempoParaSufragar = tiempoParaVotar
   
-  if (this.msmHoraDebeIniciar == '' && this.compareHoras(dato,tiempoParaVotar)){
-    this.msmHoraDebeterminar= tiempoParaVotar= ''
+  if (this.msmHoraDebeIniciar == '' && this.compareHoras(dato,this.tiempoParaSufragar)){
+    this.msmHoraDebeterminar= ''
   }else{
-    this.msmHoraDebeterminar= tiempoParaVotar
+    this.msmHoraDebeterminar= this.tiempoParaSufragar
   }
 }
 

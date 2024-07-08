@@ -2,7 +2,7 @@
 <!-- (ngSubmit)="HandleSubmit()" -->
 {{horaActual}}
 {{HoraVotarApi}}
-{{horaValidaParaVotar}}
+{{horarioDisponibleVotar}}
 <br><br>
 
 <div class="d-flex justify-content-center mt-4 align-content-center">
@@ -135,8 +135,8 @@
 
 
                         <div class=" m-auto"  style="min-height: 35px;">
-                          <p style="font-size: 12px; margin: 0; padding: 0;"  class="fw-bold text-danger" *ngFor="let error of erroresHoraInicio" >
-                            {{ error}}
+                          <p style="font-size: 12px; margin: 0; padding: 0;"  class="fw-bold text-danger" *ngIf="erroresHoraInicio" >
+                            {{ erroresHoraInicio}}
                           </p>
                           <div *ngIf="msmHoraDebeIniciar != ''" class="my-3 d-flex w-50 m-auto"> 
                             <b class="fw-bold fs-6  text-center primary-color p-0 m-0">
@@ -152,7 +152,7 @@
                           
                           <div class="form-floating ">
                             <input 
-                            [ngClass]="{'btn disabled': InputFechaFin.value.length == 0 && horaPorDefectoFin ==null || ''}"
+                            [ngClass]="{'btn disabled': InputFechaFin.value.length == 0 || erroresHoraInicio.length>0}"
                             (change)="checkHoraFin($event)" 
                             #inputHoraFin   class="form-control input fw-medium" style="font-size: 15px;"
                             type="time" id="floatingInputFechaInicio" placeholder="Elecciones precidenciales" formControlName="fechaInicio">
@@ -161,14 +161,14 @@
                         </div>
 
                          <div class=" m-auto"  style="min-height: 35px;">
-                          <p style="font-size: 12px; margin: 0; padding: 0; "  class="fw-bold text-danger" *ngFor="let error in erroresHoraFin" >
-                            {{ error}}
+                          <p style="font-size: 12px; margin: 0; padding: 0; "  class="fw-bold text-danger" *ngIf="erroresHoraFin" >
+                            {{ erroresHoraFin}}
                           </p> 
-                          <div *ngIf="msmHoraDebeterminar != ''" class="my-3 d-flex w-50 m-auto"> 
+                          <div *ngIf="msmHoraDebeterminar != ''  || msmHoraDebeterminar.length>0" class="my-3 d-flex w-50 m-auto"> 
                             <b class="fw-bold fs-6  text-center primary-color p-0 m-0">
                               Nota:</b> 
                             <p class="fs-mini m-0 p-0 text-center">
-                              Se requiere al menos habilitar 5 horas el sufragar: hora minina {{horaMinimaApertura}}
+                              Se requiere al menos habilitar 5 horas el sufragar: hora minina {{horaMinimaApertura || msmHoraDebeterminar}}
                             </p> 
                         </div> 
                          </div>   
