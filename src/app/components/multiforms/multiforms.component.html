@@ -1,5 +1,9 @@
 
 <!-- (ngSubmit)="HandleSubmit()" -->
+{{horaActual}}
+{{HoraVotarApi}}
+{{horaValidaParaVotar}}
+<br><br>
 
 <div class="d-flex justify-content-center mt-4 align-content-center">
   <form [formGroup]="Empregister"  (ngSubmit)="HandleSubmit()">
@@ -46,43 +50,67 @@
                         <div class="d-flex justify-content-around w-auto">
                           
                           <div class="form-floating ">
-                            <input class="form-control input" 
+                            <input class="form-control input fw-medium" style="font-size: 15px;"
                             id="InputFechaInicio"
                             #InputFechaInicio
+                            [min]="fechaFinal"
                             (change)="onStartDateTimeChange($event)"
-
                             onclick="this.showPicker()" 
                             (focus)="checkErrors('titulo','fechaInicio')"
                             (input)="checkErrors('titulo','fechaInicio')"
-                            type="datetime-local" id="floatingInputTitulo" placeholder="Elecciones precidenciales" formControlName="fechaInicio">
-                            <label for="floatingInputTitulo">Fecha Incio</label>        
+                            type="date" id="floatingInputFechaInicio" placeholder="Elecciones precidenciales" formControlName="fechaInicio">
+                            <label for="floatingInputFechaInicio">Fecha Incio</label>        
                           </div>  
-          
                         </div>
-                        <div class=" m-auto"  style="min-height: 35px;">
+
+                         <div class=" m-auto"  style="min-height: 35px;">
                           <p style="font-size: 12px; margin: 0; padding: 0; "  class="fw-bold text-danger" *ngFor="let error of  listadoErroresFormulario['titulo']['fechaInicio'] ">
                             {{ error}}
                           </p> 
                          </div>   
             
-                    
+
+
+
+              
+                  
+
+
+
+
+
+
+
+
+
+
+
                                        
                         <div class="d-flex justify-content-around w-auto">
                           
                           <div class="form-floating ">
-                            <input class="form-control input"
-                            [(ngModel)]="fechaActual"
+                            <input class="form-control input fw-medium" style="font-size: 15px;"
+                            [ngModel]="fechaComienzaEleccion"
                             [ngClass]="{'btn disabled': InputFechaInicio.value.length == 0}"
-                            #InputFechaInicio
-                            [min] = 'fechaActual'
+                            #InputFechaFin
+                            (change)="onEndDateTimeChange($event)"
+                            [min] = 'fechaComienzaEleccion'
                               onclick="this.showPicker()" 
                               (focus)="checkErrors('titulo','fechaFin')"
                               (input)="checkErrors('titulo','fechaFin')"
-                              type="datetime-local" 
+                              type="date" 
                               id="floatingInputFechaFin" 
                               formControlName="fechaFin">
-                            <label for="floatingInputFechaFin">Fecha Fin</label>        
+                            <label for="floatingInputFechaFin ">Fecha Fin</label>        
                           </div>  
+                          
+
+
+  
+
+
+
+
           
                         </div>
                         <div class="m-auto" style="min-height: 35px;">
@@ -92,6 +120,62 @@
                          </div>   
             
             
+                         <div class="d-flex justify-content-around w-auto">
+                          
+                          <div class="form-floating ">
+                            <input  
+                            [ngClass]="{'btn disabled': InputFechaInicio.value.length == 0  && horaPorDefectoInicio ==null || ''}"
+                            #inputHoraInicio 
+                            (change)="checkHoraInicio($event)"
+                            class="form-control input fw-medium" style="font-size: 15px;"
+                            type="time" id="floatingInputFechaInicio" placeholder="Elecciones precidenciales" formControlName="fechaInicio">
+                            <label for="floatingInputFechaInicio">hora Incio</label>        
+                          </div>  
+                        </div>
+
+
+                        <div class=" m-auto"  style="min-height: 35px;">
+                          <p style="font-size: 12px; margin: 0; padding: 0;"  class="fw-bold text-danger" *ngFor="let error of erroresHoraInicio" >
+                            {{ error}}
+                          </p>
+                          <div *ngIf="msmHoraDebeIniciar != ''" class="my-3 d-flex w-50 m-auto"> 
+                            <b class="fw-bold fs-6  text-center primary-color p-0 m-0">
+                              Nota:</b> 
+                            <p class="fs-mini m-0 p-0 text-center">
+                              Se requiere al menos 5 horas para habilitar el proceso al sufragio, por favor elija una hora a partir de las {{msmHoraDebeIniciar}} en adelante
+                          </p> 
+                        </div> 
+                        </div>   
+             
+            
+                         <div class="d-flex justify-content-around w-auto">
+                          
+                          <div class="form-floating ">
+                            <input 
+                            [ngClass]="{'btn disabled': InputFechaFin.value.length == 0 && horaPorDefectoFin ==null || ''}"
+                            (change)="checkHoraFin($event)" 
+                            #inputHoraFin   class="form-control input fw-medium" style="font-size: 15px;"
+                            type="time" id="floatingInputFechaInicio" placeholder="Elecciones precidenciales" formControlName="fechaInicio">
+                            <label for="floatingInputFechaInicio">hora Fin</label>        
+                          </div>  
+                        </div>
+
+                         <div class=" m-auto"  style="min-height: 35px;">
+                          <p style="font-size: 12px; margin: 0; padding: 0; "  class="fw-bold text-danger" *ngFor="let error in erroresHoraFin" >
+                            {{ error}}
+                          </p> 
+                          <div *ngIf="msmHoraDebeterminar != ''" class="my-3 d-flex w-50 m-auto"> 
+                            <b class="fw-bold fs-6  text-center primary-color p-0 m-0">
+                              Nota:</b> 
+                            <p class="fs-mini m-0 p-0 text-center">
+                              Se requiere al menos habilitar 5 horas el sufragar: hora minina {{horaMinimaApertura}}
+                            </p> 
+                        </div> 
+                         </div>   
+            
+
+
+
                     
                         <div class="d-flex justify-content-center mb-4">
                           <label class="color-primary fs-mini fw-bold" for="flexCheckDefault">

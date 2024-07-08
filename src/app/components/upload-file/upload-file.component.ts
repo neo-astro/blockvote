@@ -1,7 +1,7 @@
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Component, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Subscription, finalize } from 'rxjs';
-import { UploadFileService } from '../shared/services/upload-file.service';
+import { UploadFileService } from '../../shared/services/upload-file.service';
 
 @Component({
   selector: 'app-upload-file',

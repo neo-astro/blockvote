@@ -8,6 +8,7 @@ import { AuthResponseDto } from 'src/app/_interfaces/response/authResponseDto.mo
 import { PasswordConfirmationValidatorService } from 'src/app/shared/custom-validators/password-confirmation-validator.service';
 import { UserForRegistrationDto } from 'src/app/_interfaces/user/userForRegistrationDto.model';
 import { ToastServiceService } from 'src/app/shared/services/toast.service.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login-register',
@@ -34,7 +35,7 @@ export class LoginRegisterComponent implements AfterViewInit {
   
 
 
-  constructor(private authService: AuthenticationService, private passConfValidator: PasswordConfirmationValidatorService, private router: Router, private route: ActivatedRoute,private _toastService:ToastServiceService) { }
+  constructor(private cookieService: CookieService,private authService: AuthenticationService, private passConfValidator: PasswordConfirmationValidatorService, private router: Router, private route: ActivatedRoute,private _toastService:ToastServiceService) { }
   
   
   ngOnInit(): void {
@@ -187,4 +188,18 @@ export class LoginRegisterComponent implements AfterViewInit {
       }
     })
   }
+
+  private guardarCookie() {
+    this.cookieService.set('HangFireCookie', 'valor de la cookie');
+  }
+
+
+
+
+
+
+
+
+
+
 }

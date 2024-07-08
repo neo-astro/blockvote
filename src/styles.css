@@ -152,8 +152,7 @@ color: #7c82ff; /* Aquí definimos el color base */
 
 
 @media screen and (max-width : 500px) {
-  .optionMenu {
-  }
+
 }
 
 @media screen and (max-width : 990px) {
@@ -206,3 +205,7 @@ color: #7c82ff; /* Aquí definimos el color base */
 .form-control:focus{
   box-shadow: #7c82ff !important;
 }
+
+
+
+

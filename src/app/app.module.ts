@@ -11,7 +11,7 @@ import { JwtModule } from "@auth0/angular-jwt";
  
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
-import { MenuComponent } from './menu/menu.component';
+import { MenuComponent } from './components/menu/menu.component';
 import { NotFoundComponent } from './error-pages/not-found/not-found.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 
@@ -24,7 +24,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -36,21 +36,21 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { FooterComponent } from './footer/footer.component';
 import { LoginRegisterComponent } from './modules/authentication/login-register/login-register.component';
 import { EleccionComponent } from './pages/eleccion/eleccion.component';
 import { VotacionComponent } from './pages/votacion/votacion.component';
 import { ResultadosComponent } from './pages/resultados/resultados.component';
 import { ParticipantesComponent } from './pages/participantes/participantes.component';
 import { RegisterUserComponent } from './modules/authentication/register-user/register-user.component';
-import { ToastComponent } from './toast/toast.component';
-import { MultiformsComponent } from './multiforms/multiforms.component';
-import { UploadFileComponent } from './upload-file/upload-file.component';
-import { UploadExcelComponent } from './upload-excel/upload-excel.component';
-import { QrAccessComponent } from './qr-access/qr-access.component';
+import { ToastComponent } from './components/toast/toast.component';
+import { UploadFileComponent } from './components/upload-file/upload-file.component';
+import { UploadExcelComponent } from './components/upload-excel/upload-excel.component';
+import { QrAccessComponent } from './components/qr-access/qr-access.component';
 import { PipeFullText } from './shared/helpers/PipeFullText';
 import { ProcesosComponent } from './pages/procesos/procesos.component';
 import { AdminPanelComponent } from './pages/admin-panel/admin-panel.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { MultiformsComponent } from './components/multiforms/multiforms.component';
 
 
 export function tokenGetter() {
@@ -101,7 +101,6 @@ export function tokenGetter() {
     MatStepperModule,
     MatInputModule,
     MatButtonModule,
-
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -116,9 +115,8 @@ export function tokenGetter() {
       { path: 'votacion/votar', component:VotacionComponent},
       { path: 'resultados', component:ResultadosComponent},
       { path: 'admin', component:AdminPanelComponent},
-
-
       { path: 'authentication', loadChildren: () => import('./modules/authentication/authentication.module').then(m => m.AuthenticationModule) },
+      { path: 'administracion', loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuard] },
       { path: '404', component : NotFoundComponent},
       { path: 'forbidden', component: ForbiddenComponent},
       { path: '', redirectTo: '/home', pathMatch: 'full' },

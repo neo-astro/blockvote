@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { ProcesoService } from '../shared/services/proceso.service';
+import { ProcesoService } from '../../shared/services/proceso.service';
 import { Observable } from 'rxjs';
 
 @Component({

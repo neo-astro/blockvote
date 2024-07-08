@@ -23,6 +23,8 @@ export class VotacionComponent implements OnInit, AfterViewInit {
   resCandidatos: any;
   dataInfo: any;
   selectedCandidato: any = null;
+  tituloProceso: string
+  resMessage= null
 
   enviarSufragio:boolean = false
 
@@ -59,7 +61,7 @@ export class VotacionComponent implements OnInit, AfterViewInit {
         console.log('Consulta resultado:', res[0]);
         this.dataInfo = res[0];
         this.votaOrNo = res[0] !== undefined;
-
+        this.tituloProceso =res[0].procesoElectoral.titulo
         this.fechaHoraInicio = new Date(res[0].procesoElectoral.fechaInicio);
         this.fechaHoraFin = new Date(res[0].procesoElectoral.fechaFin);
         this.yaSufrago = res[0]['sufrago'];
@@ -99,40 +101,42 @@ export class VotacionComponent implements OnInit, AfterViewInit {
     }
   }
 
-  enviarVoto(event: Event) {
+ async enviarVoto(event: Event) {
     this.enviarSufragio=true
     event.preventDefault();
+    let res
     if (this.selectedCandidato) {
       let data = {
-        voto: this.selectedCandidato.nombre,
-        idProceso: this.idProceso,
+        voto: this.selectedCandidato.nombre.trim(),
+        idProceso: parseInt(this.idProceso),
+        proceso: this.tituloProceso.trim(),
         secretKey: this.secretKey
       };
-
-      this.sufrgar(data);
+      this.sufragar(data);  
     } else {
       let data = {
         voto: '',
-        idProceso: this.idProceso,
+        idProceso: parseInt(this.idProceso),
+        proceso: this.tituloProceso.trim(),
         secretKey: this.secretKey
       };
+      await this.sufragar(data)
       }
       setTimeout(() => {
         this.router.navigate(["/"]);
-        this._toastService.showNotification('¡Voto enviado satisfactoriamente!');
-      }, 3000);
+        this._toastService.showNotification(this.resMessage);
+      }, 4000);
   }
 
-  public async sufrgar(data: any) {
 
+  public sufragar(data: any) {
     this.eleccionVotarService.sufragar(data).subscribe(
       (res: any) => {
-        this.resCandidatos = res;
-        console.log('candidatos res', res);
+        this.resMessage = res.message
         return res;
       },
       error => {
-        console.error('Error candidatos:', error);
+        return error
       }
     );
   }

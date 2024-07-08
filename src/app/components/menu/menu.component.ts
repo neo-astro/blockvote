@@ -1,6 +1,6 @@
 import { Router, NavigationEnd } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from './../shared/services/authentication.service';
+import { AuthenticationService } from '../../shared/services/authentication.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({

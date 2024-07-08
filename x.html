@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Date Format</title>
+</head>
+<body>
+    <label for="dateInput">Select a date:</label>
+    <input type="date" id="dateInput">
+    <p>Formatted date: <span id="formattedDate"></span></p>
+
+    <script src="script.js"></script>
+</body>
+</html>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const dateInput = document.getElementById('dateInput');
+    const formattedDateSpan = document.getElementById('formattedDate');
+
+    dateInput.addEventListener('change', function() {
+        const dateValue = dateInput.value;
+        if (dateValue) {
+            const formattedDate = formatDate(dateValue);
+            formattedDateSpan.textContent = formattedDate;
+        } else {
+            formattedDateSpan.textContent = '';
+        }
+    });
+
+    function formatDate(dateString) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    }
+});
+
+</script>

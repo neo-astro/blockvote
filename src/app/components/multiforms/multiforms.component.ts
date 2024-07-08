@@ -1,11 +1,11 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, AbstractControl, FormControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 import { MatStepper } from '@angular/material/stepper';
-import { CandidatosDto, CandidatosFileDto } from '../upload-file/upload-file.component';
-import { ToastServiceService } from '../shared/services/toast.service.service';
-import { EleccionVotarService } from '../shared/services/eleccion-votar.service';
+import { ToastServiceService } from '../../shared/services/toast.service.service';
+import { EleccionVotarService } from '../../shared/services/eleccion-votar.service';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { ProcesoService } from '../shared/services/proceso.service';
+import { ProcesoService } from '../../shared/services/proceso.service';
+import { CandidatosDto, CandidatosFileDto } from '../upload-file/upload-file.component';
 
 
 @Component({
@@ -33,11 +33,18 @@ export class MultiformsComponent  implements OnInit{
   imageNamePartidoEdit:string
 
 
+  tiempoParaVota : Number = 5
+  tiempoMinimoAntesVotar: number=  5
+
   fileCsv: File | null = null;
 
-  startDateTime: string;
-  endDateTimeMin: string;
+  
+  fechaComienzaEleccion: string;
+  fechaTerminaEleccion : string
   fechaActual:string
+
+  fechaFinal: string 
+  
 
   idEditar :number = 0
   edit: boolean = false
@@ -46,6 +53,22 @@ export class MultiformsComponent  implements OnInit{
   FormRegisterCandidato: FormGroup
   CandidatoFileName: string = '';
   PartidoPoliticoFileName: string = '';
+
+  erroresHoraInicio : string[] = []
+  erroresHoraFin : string[]
+
+  horaActual: Date = new Date()
+
+  horaInicio: string
+  horaFin: string
+  horaMinimaApertura: string
+
+  HoraVotarApi = 5
+
+  //la que calculo hora hoy + hora api
+  horaValidaParaVotar
+  msmHoraDebeIniciar: any = ''
+  msmHoraDebeterminar: any = ''
 
 
   
@@ -83,8 +106,9 @@ export class MultiformsComponent  implements OnInit{
       excel:[]
     }
 
-  }
-
+  } 
+  horaPorDefectoInicio: string 
+  horaPorDefectoFin: string  
 
   @ViewChild('fotoCandidato') inputCandidatoFoto!: ElementRef;
   @ViewChild('fotoPartido') inputPartidoFoto!: ElementRef;
@@ -92,6 +116,8 @@ export class MultiformsComponent  implements OnInit{
 
   @ViewChild('InputFechaInicio') InputFechaInicio!: ElementRef;
   @ViewChild('InputFechaFin') InputFechaFin!:  ElementRef<HTMLInputElement>;
+  @ViewChild('inputHoraFin') inputHoraFin!:  ElementRef;
+  @ViewChild('inputHoraIncio') inputHoraIncio!:  ElementRef;
   // @ViewChild('imgInput') imgInput: ElementRef<HTMLInputElement>;
   @ViewChild('stepper') stepper!: MatStepper;
   form1 :FormBuilder
@@ -99,13 +125,15 @@ export class MultiformsComponent  implements OnInit{
     private http: HttpClient,
     private toastService:ToastServiceService, private procesoService:ProcesoService) {
     
-    this.Empregister = this.builder.group({
-      titulo: this.builder.group({
+
+      
+      this.Empregister = this.builder.group({
+        titulo: this.builder.group({
         tituloName: this.builder.control('', [Validators.required,Validators.minLength(5)]),
         fechaInicio: this.builder.control('', Validators.required),
         fechaFin: this.builder.control('', Validators.required),
         resultadoPublico: [false],
-
+        
       }),
       candidatos: this.builder.group({
         nombre:   this.builder.control('',[Validators.required,Validators.minLength(5)]),
@@ -116,33 +144,146 @@ export class MultiformsComponent  implements OnInit{
       votantes: this.builder.group({
         excel: this.builder.control('', Validators.required),
       }),
-
+      
     });
-
+    
+    const today = new Date();
+    today.setHours(today.getHours() + this.HoraVotarApi)
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    this.fechaFinal = `${year}-${month}-${day}`;
     this.saveOriginalValidators();
 
   }
 
  ngOnInit(){
+  setInterval(()=>{
+    this.horaActual = new Date()
+    let newDate = new Date(this.horaActual);
+    this.horaValidaParaVotar = new Date(newDate)
+    this.horaValidaParaVotar.setHours(newDate.getHours() + this.HoraVotarApi)
+  },1000)
+
  }
 
+ //validar fecha fin
  onStartDateTimeChange(event: any) {
   if(event.target.value==''){this.fechaActual = null}
   let date = new Date(event.target.value)
-  date.setDate(date.getDate() + 1);
-  let fechaMin  = new Date(date).toISOString().slice(0, 16);
-  this.fechaActual = fechaMin
+
+  let newDate = new Date(date)
+  const year = newDate.getFullYear();
+  const month = String(newDate.getMonth() + 1).padStart(2, '0');
+  const day = String(newDate.getDate() + 1).padStart(2, '0');
+  this.fechaComienzaEleccion = `${year}-${month}-${day}`;
+  this.fechaTerminaEleccion= `${year}-${month}-${day}`
+
+
+  //validar hora inicio
+  if(this.InputFechaInicio.nativeElement.value === this.fechaComienzaEleccion ){
+    let hours = String(this.horaValidaParaVotar.getHours()).padStart(2, '0'); 
+    let minutes = String(this.horaValidaParaVotar.getMinutes()).padStart(2, '0'); 
+    let hora = parseInt(hours) 
+    let tiemporComenzarVotar =`${hora}:${minutes}`
+    this.msmHoraDebeIniciar= tiemporComenzarVotar
+  }
+
 }
 
-setEndDateTimeMin(date: Date) {
-  // Formatear la fecha a 'YYYY-MM-DDTHH:mm' para que sea compatible con el input datetime-local
-  const year = date.getFullYear();
-  const month = ('0' + (date.getMonth() + 1)).slice(-2);
-  const day = ('0' + date.getDate()).slice(-2);
-  const hours = ('0' + date.getHours()).slice(-2);
-  const minutes = ('0' + date.getMinutes()).slice(-2);
-  this.endDateTimeMin = `${year}-${month}-${day}T${hours}:${minutes}`;
+onEndDateTimeChange(event:any){
+  let fechaFin = event.target.value
+  this.fechaTerminaEleccion=fechaFin
+  if(fechaFin != this.InputFechaInicio.nativeElement.value){
+    this.msmHoraDebeIniciar = ''
+  } 
+  if (fechaFin ===  this.fechaComienzaEleccion){
+    let hours = String(this.horaValidaParaVotar.getHours()).padStart(2, '0'); 
+    let minutes = String(this.horaValidaParaVotar.getMinutes()).padStart(2, '0'); 
+    let hora = parseInt(hours) 
+    let tiemporComenzarVotar =`${hora}:${minutes}`
+    this.msmHoraDebeIniciar= tiemporComenzarVotar
+  }
+ 
+
 }
+
+
+
+checkHoraInicio(event:Event){
+  let dato:any = event.target as HTMLInputElement
+  dato = dato.value
+  // alert(dato)
+  this.horaInicio=dato
+  if(this.fechaTerminaEleccion ===  this.fechaComienzaEleccion){
+    const hours = String(this.horaValidaParaVotar.getHours()).padStart(2, '0'); 
+    const minutes = String(this.horaValidaParaVotar.getMinutes()).padStart(2, '0'); 
+    let tiempoMinParaVotar =`${hours}:${minutes}`
+
+    let horaEntretiempo = this.horaInicio.split(':')
+    let tiempoParaVotar =`${ parseInt(horaEntretiempo[0]) + 5}:${horaEntretiempo[1]}`
+    this.inputHoraFin.nativeElement.value =  `${parseInt(horaEntretiempo[0]) + 5}:${horaEntretiempo[1]}`
+    
+    this.horaMinimaApertura = tiempoParaVotar
+
+    if (this.compareHoras(dato,tiempoMinParaVotar) == false){
+      this.erroresHoraInicio.push('Verifique el rango de horas')
+      this.msmHoraDebeIniciar=tiempoMinParaVotar
+    } else{
+      this.erroresHoraInicio = []
+      this.msmHoraDebeIniciar=''
+    }
+  }
+
+  alert(this.horaMinimaApertura)
+
+
+
+}
+
+
+checkHoraFin(event:Event){
+  let dato:any = event.target as HTMLInputElement
+  dato = dato.value
+  let horaEntretiempo = this.horaInicio.split(':')
+  let tiempoParaVotar =`${ parseInt(horaEntretiempo[0]) + 5}:${horaEntretiempo[1]}`
+  this.horaMinimaApertura = tiempoParaVotar
+  
+  if (this.msmHoraDebeIniciar == '' && this.compareHoras(dato,tiempoParaVotar)){
+    this.msmHoraDebeterminar= tiempoParaVotar= ''
+  }else{
+    this.msmHoraDebeterminar= tiempoParaVotar
+  }
+}
+
+
+ compareHoras(HoraInicio: string, HoraPermitidaa: string): boolean {
+  // Parsear las horas y minutos de cada tiempo
+  const [hours1, minutes1] = HoraInicio.split(':').map(Number);
+  const [hours2, minutes2] = HoraPermitidaa.split(':').map(Number);
+
+  // Crear objetos Date ficticios para comparar
+  const hora1 = new Date(0, 0, 0, hours1, minutes1);
+  const hora2 = new Date(0, 0, 0, hours2, minutes2);
+
+  if (hora1 >= hora2) {
+      return true ;
+  }else{return false}
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   transition(){
     this.isLinear = true ;
@@ -206,7 +347,6 @@ setEndDateTimeMin(date: Date) {
       }
       reader.readAsDataURL(file);
     }else{
-    alert('borro')
     this.CandidatoFileName   = '';
     this.outImgCandidato     = ''
     this.outImgFileCandidato = null
@@ -671,9 +811,9 @@ crearProceso(obj:any){
 
 
 
+
+
 }
-
-
 export class ProcesoDto{
   Titulo:string
   FechaInicio:string

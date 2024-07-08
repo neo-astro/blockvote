@@ -1,0 +1,122 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-title {
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.card-text {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #555;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+  .btnDelete{
+    color: #dc2f2f;
+    } 
+    .btnDelete:hover{
+        color: #ffffff !important;
+        margin-top: -3px !important;
+        background-color: #f70909c8 !important;
+    }  
+
+
+.modal {
+    position: fixed; /* Mantiene el div en la misma posición en la ventana de visualización */
+    top: 0; /* Alinea la parte superior del div con la parte superior de la ventana */
+    left: 0; /* Alinea la parte izquierda del div con la parte izquierda de la ventana */
+    width: 100%; /* Hace que el div ocupe todo el ancho de la ventana */
+    height: 100%; /* Hace que el div ocupe todo el alto de la ventana */
+    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    color: white; /* Texto en color blanco */
+    display: flex; /* Utiliza Flexbox para centrar el contenido */
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+    z-index: 9999; /* Asegura que el div esté por encima de otros elementos */
+    }
+
+ 
+
+  /* Define the keyframes for the fade-in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes nofadeIn {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  
+  .nofade-in {
+    animation: nofadeIn 1s linear;
+    position: fixed; /* Mantiene el div en la misma posición en la ventana de visualización */
+    top: 0; /* Alinea la parte superior del div con la parte superior de la ventana */
+    left: 0; /* Alinea la parte izquierda del div con la parte izquierda de la ventana */
+    width: 100%; /* Hace que el div ocupe todo el ancho de la ventana */
+    height: 100%; /* Hace que el div ocupe todo el alto de la ventana */
+    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    color: white; /* Texto en color blanco */
+    display: flex; /* Utiliza Flexbox para centrar el contenido */
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+    z-index: 9999; 
+    animation-fill-mode: forwards;
+  }
+  
+  .fade-in {
+    position: fixed; /* Mantiene el div en la misma posición en la ventana de visualización */
+    top: 0; /* Alinea la parte superior del div con la parte superior de la ventana */
+    left: 0; /* Alinea la parte izquierda del div con la parte izquierda de la ventana */
+    width: 100%; /* Hace que el div ocupe todo el ancho de la ventana */
+    height: 100%; /* Hace que el div ocupe todo el alto de la ventana */
+    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    color: white; /* Texto en color blanco */
+    display: flex; /* Utiliza Flexbox para centrar el contenido */
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+    z-index: 9999; 
+    animation: fadeIn 0.3s linear;
+    opacity: 1; /* Asegura que esté visible después de la animación */
+    animation-fill-mode: forwards; /* Mantiene el estado final de la animación */
+  }
+  
+  
+  /* You can also add other styles to the element */
+  .fade-in {
+    background-color: #f9f9f9;
+  }

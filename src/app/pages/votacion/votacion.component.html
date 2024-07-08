@@ -37,15 +37,15 @@
   <div class="container-fluid w-75 h-50 m-auto text-center align-content-center " style="min-height: 70vh;">
     <div *ngIf="votaOrNo == false">
       <img src="../../../assets/img/noVota.png" class="m-auto" style="height: 40vh; max-width: 25vw;" alt="imagen no vota">
-      <p class="m-auto primary-color fw-bold h5">¡Ops, parece que no tienes ningún proceso pendiente para votar!</p>
+      <p class="m-auto text-warning fw-bold fs-4">¡Ops, parece que no tienes ningún proceso pendiente para votar!</p>
     </div>
     <div *ngIf="timeValidoVotar == false" class="container-fluid w-75 h-50 m-auto ">
       <img src="../../../assets/img/timeOut.png" class="m-auto" style="height: 40vh; width: 25vw;" alt="imagen fuera de horario para votar">
-      <p class="m-auto primary-color fw-bold h5">¡No disponible, revisa el horario de votación en tu correo!</p>
+      <p class="m-auto text-warning fw-bold fs-4">¡No disponible, revisa el horario de votación en tu correo!</p>
     </div>
     <div *ngIf="yaSufrago == true" class="container-fluid w-75 h-50 m-auto">
-      <img src="../../../assets/img/yavoto.png" class="m-auto" style="height: 50vh; width: 30vw;" alt="imagen fuera de horario para votar">
-      <p class="m-auto primary-color fw-bold h5">Ya realizaste tu voto</p>
+      <img src="../../../assets/img/image21.png" class="m-auto" style="height: 50vh; width: 30vw;" alt="imagen fuera de horario para votar">
+      <p class="m-auto text-warning fw-bold fs-4 ">Ya realizaste tu voto</p>
     </div>
   </div>
 </ng-template>

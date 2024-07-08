@@ -1,0 +1,135 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 col-lg-6 mb-4">
+            <div class="card h-100" >
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold" style="color: rgb(47, 124, 238);">Tiempo de ejecución de procesos en segundo plano</h5>
+                    <p class="fw-light ">Tiempo en minutos: <b class="fw-semibold "> {{tiempoProceso}}</b></p>
+                    <div class="actions">
+                        <button  (click)="viewModalTiempoForm=!viewModalTiempoForm" style="background-color: #358cfd; min-width: 10vw;margin-top: -2px;" class="mb-3 btn btn-action m-auto text-white align-content-center justify-content-center d-flex" >
+                            <svg  style="margin-top: 3px !important" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-pencil-square p-0 m-0" viewBox="0 0 16 16">
+                              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                            </svg>
+                            <div class="ms-1">
+                              Editar
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Opción 4</h5>
+                    <p class="card-text">Datos relevantes de la opción 4</p>
+                    <div class="actions">
+                        <button class="btn btn-primary mb-2">Modificar</button>
+                        <button class="btn btn-success">Agregar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-12">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold" style="color: rgb(68, 213, 70);">Administrar nodos en la red Blockchain</h5>
+                    <p class="card-text">Datos relevantes de la opción 2</p>
+
+                    <div class="d-flex flex-wrap align-content-center justify-content-center">
+                        
+                        <div *ngFor="let nodo of listaNodos"  class="mx-2 my-2" >
+
+                            <div class="border text-center p-2" style="min-width: 160px; border-radius: 8px;
+                              background: #f2f2f2;
+                              box-shadow:  8px -8px 16px #d7d7d7,
+                                           -8px 8px 16px #ffffff;">
+                                <svg xmlns="http://www.w3.org/2000/svg"  class="m-auto" width="50" height="50" viewBox="0 0 24 24"><path fill="#7c82ff" d="M4 1h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1M9 5h1V3H9zm0 8h1v-2H9zm0 8h1v-2H9zM5 3v2h2V3zm0 8v2h2v-2zm0 8v2h2v-2z"/></svg>
+                                <p class="fw-bold fs-6 primary-color m-auto" >{{nodo}}</p>
+                                <button   [ngClass]="{'d-none': listaNodos.length === 1}"  (click)="eliminarNodo(nodo)" data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn bg-white btn-sm mx-2 btnDelete rounded-circle my-2" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash fw-bold" viewBox="0 0 16 16">
+                                      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                      <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                    </svg>                   
+                                </button>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="d-flex w-auto m-auto mt-4 justify-content-center">
+
+
+                        <button   style="background-color: #62cf5a; min-width: 10vw;margin-top: -2px;" class="mx-2 btn btn-action  text-white align-content-center justify-content-center d-flex" >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" color="#ffffff"><path d="M13.5 19.5H13c-2.828 0-4.243 0-5.121-.879C7 17.743 7 16.328 7 13.5v-2m0-1v1m0 0h6.5m0 0c0-1.178 0-1.768.351-2.134C14.204 9 14.77 9 15.9 9h1.2c1.131 0 1.697 0 2.048.366c.352.366.352.956.352 2.134s0 1.768-.352 2.134c-.35.366-.917.366-2.048.366h-1.2c-1.131 0-1.697 0-2.049-.366s-.351-.956-.351-2.134"/><path d="M13.5 19.5c0-1.178 0-1.768.351-2.134C14.204 17 14.77 17 15.9 17h1.2c1.131 0 1.697 0 2.048.366c.352.366.352.956.352 2.134s0 1.768-.352 2.134c-.35.366-.917.366-2.048.366h-1.2c-1.131 0-1.697 0-2.049-.366s-.351-.956-.351-2.134M7 2v6m3-3H4"/></g></svg>
+                            <div class="ms-1">
+                                Agregar
+                            </div>
+                        </button>
+  
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div *ngIf="viewModalTiempoForm" class="bg-light"   [ngClass]="{'fade-in': viewModalTiempoForm == true, 'nofade-in': viewModalTiempoForm==false}">
+    <div class="w-auto p-5 rounded-3"  style="min-height: 250px;box-shadow: -5px -5px 8px #dddddd,
+    -5px 5px 8px #dcdcdc,
+    5px 5px 5px #dcdcdc,
+    -5px 5px 8px #ffffff;">
+        <p class="fs-4 primary-color fw-bold text-center">Editar tiempo de procesos</p>
+        <div class="d-flex justify-content-center align-content-center " [formGroup]="temporizadorFormGroup" style="margin-top: 50px;">
+            <mat-label  class="text-dark m-auto mx-2 fs-5">Minutos</mat-label>
+            <input #inputTiempo matInput  [max]="59"  type="number" class="form-control" style="max-width: 100px;" formControlName="tiempo" [value]="tiempoProceso" [ngModel]="tiempoProceso"  [min]="1" (input)="validateInput($event)">
+              
+            <!-- <mat-error class="text-danger mx-2 fw-bold m-auto" >Campo requerido</mat-error> -->
+        </div> 
+
+        <div class="d-flex justify-content-center gap-3" style="margin-top: 50px;">
+            <button style="min-width: 10vw;" class="bg-primary-color btn btn-action text-white" (click)="enviarTiempo()">Guardar</button>
+            <button style="min-width: 10vw;" class="btn bg-primary-color  btn-action text-white" (click)="viewModalTiempoForm=!viewModalTiempoForm" >Cancelar</button>
+        </div>
+
+    </div>      
+</div>
+
+
+
+
+
+<div *ngIf="viewModalDeleteNodo" class="bg-light"   [ngClass]="{'fade-in': viewModalDeleteNodo == true, 'nofade-in': viewModalDeleteNodo==false}">
+    <div class="w-auto p-5 rounded-3"  style="min-height: 250px;box-shadow: -5px -5px 8px #dddddd,
+    -5px 5px 8px #dcdcdc,
+    5px 5px 5px #dcdcdc,
+    -5px 5px 8px #ffffff;">
+        <p class="fs-4 primary-color fw-bold text-center"> ¿Esta seguro de eleminar el nodo?</p>
+        <p class="fw-bold text-muted m-auto container-fluid text-center mt-3">{{ipNodoEliminar}}</p>
+
+        <div class="d-flex justify-content-center gap-3" style="margin-top: 50px;">
+            <button style="min-width: 10vw;" class="bg-primary-color btn btn-action text-white" (click)="enviarEliminarNodo()">Eliminar</button>
+            <button style="min-width: 10vw;" class="btn bg-primary-color  btn-action text-white" (click)="viewModalDeleteNodo=!viewModalDeleteNodo" >Cancelar</button>
+        </div>
+
+    </div>      
+</div>
+      
+

@@ -1,0 +1,12 @@
+.top-right-btn {
+    top: 5px; /* Distancia desde la parte superior del contenedor */
+    height: 40px;
+    width: 120px;
+    right: 10px; /* Distancia desde el lado derecho del contenedor */
+    padding: 10px 50px; /* Espaciado interno del botón */
+    background-color: #f8f8f8; /* Color de fondo del botón */
+    border: none; /* Quitar borde predeterminado */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambiar cursor al pasar sobre el botón */
+    z-index: 1; /* Asegurarse de que el botón esté por encima del iframe */
+}
