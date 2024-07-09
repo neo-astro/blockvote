@@ -109,7 +109,7 @@ body {
     display: flex; /* Utiliza Flexbox para centrar el contenido */
     justify-content: center; /* Centra el contenido horizontalmente */
     align-items: center; /* Centra el contenido verticalmente */
-    z-index: 9999; 
+    z-index: 1; 
     animation: fadeIn 0.3s linear;
     opacity: 1; /* Asegura que esté visible después de la animación */
     animation-fill-mode: forwards; /* Mantiene el estado final de la animación */
@@ -120,3 +120,38 @@ body {
   .fade-in {
     background-color: #f9f9f9;
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .btn-group .btn {
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .btn-group .btn.active {
+    background-color: #0073ff;
+    color: white;
+  }
+  
+  .btn-group input[type="checkbox"] {
+    display: none;
+  }
+  

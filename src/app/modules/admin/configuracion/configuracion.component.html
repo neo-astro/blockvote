@@ -38,13 +38,15 @@
             <div class="card h-100">
                 <div class="card-body text-center">
                     <h5 class="card-title fw-bold" style="color: rgb(68, 213, 70);">Administrar nodos en la red Blockchain</h5>
-                    <p class="card-text">Datos relevantes de la opción 2</p>
 
-                    <div class="d-flex flex-wrap align-content-center justify-content-center">
-                        
-                        <div *ngFor="let nodo of listaNodos"  class="mx-2 my-2" >
 
-                            <div class="border text-center p-2" style="min-width: 160px; border-radius: 8px;
+
+
+                    <div *ngIf="listaNodos.length  == 0" class="text-center primary-color fw-bold"><h6>No hay nodos registrados</h6></div>
+                    <div *ngIf="listaNodos != null" class="d-flex flex-wrap align-content-center justify-content-center">
+                        <div  *ngFor="let nodo of listaNodos"  class="mx-2 my-2" >
+
+                            <div  class="border text-center p-2" style="min-width: 160px; border-radius: 8px;
                               background: #f2f2f2;
                               box-shadow:  8px -8px 16px #d7d7d7,
                                            -8px 8px 16px #ffffff;">
@@ -67,7 +69,7 @@
                     <div class="d-flex w-auto m-auto mt-4 justify-content-center">
 
 
-                        <button   style="background-color: #62cf5a; min-width: 10vw;margin-top: -2px;" class="mx-2 btn btn-action  text-white align-content-center justify-content-center d-flex" >
+                        <button  (click)="viewModalAddNodo=!viewModalAddNodo"  style="background-color: #62cf5a; min-width: 10vw;margin-top: -2px;" class="mx-2 btn btn-action  text-white align-content-center justify-content-center d-flex" >
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" color="#ffffff"><path d="M13.5 19.5H13c-2.828 0-4.243 0-5.121-.879C7 17.743 7 16.328 7 13.5v-2m0-1v1m0 0h6.5m0 0c0-1.178 0-1.768.351-2.134C14.204 9 14.77 9 15.9 9h1.2c1.131 0 1.697 0 2.048.366c.352.366.352.956.352 2.134s0 1.768-.352 2.134c-.35.366-.917.366-2.048.366h-1.2c-1.131 0-1.697 0-2.049-.366s-.351-.956-.351-2.134"/><path d="M13.5 19.5c0-1.178 0-1.768.351-2.134C14.204 17 14.77 17 15.9 17h1.2c1.131 0 1.697 0 2.048.366c.352.366.352.956.352 2.134s0 1.768-.352 2.134c-.35.366-.917.366-2.048.366h-1.2c-1.131 0-1.697 0-2.049-.366s-.351-.956-.351-2.134M7 2v6m3-3H4"/></g></svg>
                             <div class="ms-1">
                                 Agregar
@@ -132,4 +134,40 @@
     </div>      
 </div>
       
+
+<div *ngIf="viewModalAddNodo" class="bg-light"   [ngClass]="{'fade-in': viewModalAddNodo == true, 'nofade-in': viewModalAddNodo==false}">
+    <div class="w-auto p-5 rounded-3"  style="min-height: 250px;box-shadow: -5px -5px 8px #dddddd,
+    -5px 5px 8px #dcdcdc,
+    5px 5px 5px #dcdcdc,
+    -5px 5px 8px #ffffff;">
+        <p class="fs-4 primary-color fw-bold text-center">Agregar nuevo Nodo a la blockchain</p>
+        <div class="d-flex justify-content-center align-content-center " style="margin-top: 50px;">
+            <mat-label  class="text-dark m-auto mx-2 fs-5 text-center">Dirección ip</mat-label>
+            <input
+            (input)="formatIp($event)"
+            (change)="validateInputIp($event)"
+             #inputIpNodo matInput    type="text" class="form-control text-center" style="max-width: 300px;" placeholder="ejemplo: 192.168.1.4:5010" >
+            </div> 
+            <div class="my-4">
+                <p style="font-size: 15px;"  class="text-danger text-center w-100 m-auto" *ngIf="ipError">Compruebe que la Dirección Ip sea correcta</p>
+            </div>
+            <div class="text-center ">
+                <div class="btn-group" role="group" aria-label="Protocol selection">
+                    <input type="checkbox" id="httpCheckbox" (change)="onCheckboxChange('http')" [checked]="isHttpActive">
+                    <label for="httpCheckbox" class="btn" [class.active]="isHttpActive">HTTP</label>
+                  
+                    <input [disabled]="msmProtocolo" type="checkbox" id="httpsCheckbox" (change)="onCheckboxChange('https')" [checked]="isHttpsActive">
+                    <label for="httpsCheckbox" class="btn" [class.active]="isHttpsActive">HTTPS</label>
+                  </div>
+                  <p style="font-size: 15px;" class="mt-2 primary-color fw-bold" *ngIf="msmProtocolo">HTTPS disponible solo en ambiente de produción</p>
+            </div>
+
+        <div class="d-flex justify-content-center gap-3 " style="margin-top: 50px;">
+            <button [disabled]="isHttpsActive" style="min-width: 10vw;" class="bg-primary-color btn btn-action text-white" (click)="enviarNodo()">Añadir Nodo</button>
+            <button style="min-width: 10vw;" class="btn bg-primary-color  btn-action text-white" (click)="viewModalAddNodo=!viewModalAddNodo" >Cancelar</button>
+        </div>
+
+    </div>      
+</div>
+
 

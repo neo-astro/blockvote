@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EnvironmentUrlService } from './environment-url.service';
 import { NuevoNodo } from './blockchain.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,13 +25,16 @@ export class AdminService {
  }
 
  
- addNodoBlockchain(data:NuevoNodo) { 
+
+ addNodoBlockchain(data: NuevoNodo): Observable<any> {
   const headers = new HttpHeaders({
     'Content-Type': 'application/json'
   });
 
-  data = {Ip:data.Ip}
-  return this.http.post(this.envUrl.urlAddress+'/Administrador/blockChain/addNodo',data, {headers:headers} )
+  const payload = { ipNodo: data.ipNodo };
+  const url = `${this.envUrl.urlAddress}/Administrador/blockChain/addNodo`;
+
+  return this.http.post(url, payload, { headers: headers });
 }
 
 removerNodoBlockchain(data:string) { 

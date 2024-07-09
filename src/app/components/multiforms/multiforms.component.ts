@@ -192,12 +192,13 @@ export class MultiformsComponent  implements OnInit{
 
     let tiemporComenzarVotar =`${hours}:${minutes}`
     this.msmHoraDebeIniciar= tiemporComenzarVotar
+
+
     this.inputHoraInicio.nativeElement.value= `${hours}:${minutes}`
     let tiempoParaSufragar = `${parseInt(hours) + this.HoraVotarApi}:${minutes}`
-    this.inputHoraFin.nativeElement.value= `${parseInt(hours) + this.HoraVotarApi}:${minutes}`
+
+    this.inputHoraFin.nativeElement.value= `${parseInt(hours)+this.HoraVotarApi}:${minutes}`
     this.msmHoraDebeterminar= tiempoParaSufragar
-
-
   }
 
 }
@@ -206,7 +207,21 @@ onEndDateTimeChange(event:any){
   let fechaFin = event.target.value
   this.fechaTerminaEleccion=fechaFin
 
+
+  let hours = String(this.horarioDisponibleVotar.getHours()).padStart(2, '0'); 
+  let minutes = String(this.horarioDisponibleVotar.getMinutes()).padStart(2, '0'); 
+  let horaFinConRango =`${parseInt(hours) + this.HoraVotarApi}:${minutes}`
+
+  let horaInicio = this.inputHoraInicio.nativeElement.value
+
+
+  alert(horaInicio)
+  alert(horaFinConRango)
+
+  
   if(fechaFin != this.InputFechaInicio.nativeElement.value){
+    alert("ok rango ")
+    this.msmHoraDebeterminar = ''
     this.msmHoraDebeIniciar = ''
   } 
 
@@ -215,7 +230,11 @@ onEndDateTimeChange(event:any){
     let minutes = String(this.horarioDisponibleVotar.getMinutes()).padStart(2, '0'); 
     let hora = parseInt(hours) 
     let tiemporComenzarVotar =`${hora}:${minutes}`
-    this.msmHoraDebeIniciar= tiemporComenzarVotar
+    this.msmHoraDebeterminar= tiemporComenzarVotar
+  }
+  if(fechaFin != this.fechaComienzaEleccion){
+    this.msmHoraDebeterminar= ""
+    this.msmHoraDebeIniciar = ""
   }
  
 
@@ -230,6 +249,7 @@ checkHoraInicio(event:Event){
   this.horaInicio = dato
   if(this.fechaTerminaEleccion ===  this.fechaComienzaEleccion){
 
+    
 
     const hours = String(this.horarioDisponibleVotar.getHours()).padStart(2, '0'); 
     const minutes = String(this.horarioDisponibleVotar.getMinutes()).padStart(2, '0'); 
@@ -274,7 +294,9 @@ checkHoraFin(event:Event){
 
   this.tiempoParaSufragar = tiempoParaVotar
   
+  //dias distintos
   if (this.msmHoraDebeIniciar == '' && this.compareHoras(dato,this.tiempoParaSufragar)){
+    alert("dias distintos")
     this.msmHoraDebeterminar= ''
   }else{
     this.msmHoraDebeterminar= this.tiempoParaSufragar
@@ -293,7 +315,9 @@ checkHoraFin(event:Event){
 
   if (hora1 >= hora2) {
       return true ;
-  }else{return false}
+  }else{
+    return false
+    }
 
   }
 
@@ -317,6 +341,7 @@ checkHoraFin(event:Event){
     }, 1000)
     
   }
+  
   get tituloForm() {
     return this.Empregister.get("titulo") as FormGroup;
   }
@@ -667,7 +692,12 @@ checkHoraFin(event:Event){
   }
 
   formIsValid(){
+
+
     if(this.tituloForm.status == "INVALID"){
+      if(this.msmHoraDebeIniciar != '' && this.msmHoraDebeterminar != ''){
+        console.log('todo valido')
+      }
       return true
     }else{
       return false

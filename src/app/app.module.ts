@@ -51,6 +51,10 @@ import { ProcesosComponent } from './pages/procesos/procesos.component';
 import { AdminPanelComponent } from './pages/admin-panel/admin-panel.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MultiformsComponent } from './components/multiforms/multiforms.component';
+import { IpPortValidatorDirective } from './shared/directivas/ip-port-validator.directive';
+import { EleccionespublicasComponent } from './pages/eleccionespublicas/eleccionespublicas.component';
+import { ResultadoDetalleComponent } from './pages/resultado-detalle/resultado-detalle.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 export function tokenGetter() {
@@ -59,6 +63,7 @@ export function tokenGetter() {
 
 @NgModule({
   declarations: [
+    IpPortValidatorDirective,
     PipeFullText,
     AppComponent,
     HomeComponent,
@@ -77,10 +82,13 @@ export function tokenGetter() {
     UploadExcelComponent,
     QrAccessComponent,
     ProcesosComponent,
-    AdminPanelComponent
+    AdminPanelComponent,
+    IpPortValidatorDirective,
+    EleccionespublicasComponent,
+    ResultadoDetalleComponent
   ],
   imports: [
-    //modulos de ui
+    NgxChartsModule,
     MatListModule,
     BrowserAnimationsModule,
     MatToolbarModule,
@@ -113,7 +121,8 @@ export function tokenGetter() {
       { path: 'img', component:UploadFileComponent,canActivate: [AuthGuard]},
       { path: 'votacion', component:QrAccessComponent},
       { path: 'votacion/votar', component:VotacionComponent},
-      { path: 'resultados', component:ResultadosComponent},
+      { path: 'resultadoParticipaciones', component:ResultadosComponent},
+      { path: 'eleccionesPublicas', component:EleccionespublicasComponent},
       { path: 'admin', component:AdminPanelComponent},
       { path: 'authentication', loadChildren: () => import('./modules/authentication/authentication.module').then(m => m.AuthenticationModule) },
       { path: 'administracion', loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuard] },
@@ -121,9 +130,7 @@ export function tokenGetter() {
       { path: 'forbidden', component: ForbiddenComponent},
       { path: '', redirectTo: '/home', pathMatch: 'full' },
       { path: '**', redirectTo: '/404', pathMatch: 'full'},
-
-      
-      
+ 
     ]),
     RouterModule.forChild([
       // { path: 'consulta', component: ConsultaComponent },
@@ -142,6 +149,9 @@ export function tokenGetter() {
       useClass: ErrorHandlerService,
       multi: true
     }
+  ],
+  exports:[
+    IpPortValidatorDirective
   ],
   bootstrap: [AppComponent]
 })

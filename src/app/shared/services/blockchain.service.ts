@@ -15,6 +15,6 @@ export class BlockchainService {
 };
 
 export class NuevoNodo{
- Ip: string
+ ipNodo: string
 }
 

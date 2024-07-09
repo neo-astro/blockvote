@@ -51,7 +51,11 @@
 </ng-template>
 
 
-<div class="w-100 h-100 bg-white text-center " [ngClass]="{'d-none': enviarSufragio ==false, 'fade-in':enviarSufragio==true}" style="position: absolute;left: 0px;top: 0px;z-index: 100000;">
+<div class="w-100 h-100 bg-white text-center"
+  style="position: absolute;left: 0px;top: 0px;z-index: 100000;"
+  [ngClass]="{'d-none': enviarSufragio ==false, 'fade-in': enviarSufragio==true}">
+  
+  
   <img class="m-auto" style="width: 50vw;" src="../../../assets/img/image7.png" alt="">
   <p class="primary-color text-capitalize fw-bold fs-4" style="margin-top: -50px;" >enviando </p>
   <section style="margin-top: -5px" class="dots-container">
