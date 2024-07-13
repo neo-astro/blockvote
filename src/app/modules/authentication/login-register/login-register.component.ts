@@ -119,7 +119,7 @@ export class LoginRegisterComponent implements AfterViewInit {
        localStorage.setItem("token", res.token);
        this.authService.sendAuthStateChangeNotification(res.isAuthSuccessful);
        this.router.navigate([this.returnUrl]);
-       this._toastService.showNotification('¡Inicio de sesión exitoso!');
+       this._toastService.showNotification('¡Inicio de sesión exitoso!','Cerrar',2000);
 
     },
 

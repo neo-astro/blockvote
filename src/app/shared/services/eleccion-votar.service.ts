@@ -32,6 +32,7 @@ export class EleccionVotarService {
 
 
 
+
   sufragar(data:any){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'

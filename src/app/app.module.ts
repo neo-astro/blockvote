@@ -55,6 +55,7 @@ import { IpPortValidatorDirective } from './shared/directivas/ip-port-validator.
 import { EleccionespublicasComponent } from './pages/eleccionespublicas/eleccionespublicas.component';
 import { ResultadoDetalleComponent } from './pages/resultado-detalle/resultado-detalle.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MisParticipacionesComponent } from './pages/mis-participaciones/mis-participaciones.component';
 
 
 export function tokenGetter() {
@@ -85,7 +86,8 @@ export function tokenGetter() {
     AdminPanelComponent,
     IpPortValidatorDirective,
     EleccionespublicasComponent,
-    ResultadoDetalleComponent
+    ResultadoDetalleComponent,
+    MisParticipacionesComponent
   ],
   imports: [
     NgxChartsModule,
@@ -121,8 +123,9 @@ export function tokenGetter() {
       { path: 'img', component:UploadFileComponent,canActivate: [AuthGuard]},
       { path: 'votacion', component:QrAccessComponent},
       { path: 'votacion/votar', component:VotacionComponent},
-      { path: 'resultadoParticipaciones', component:ResultadosComponent},
-      { path: 'eleccionesPublicas', component:EleccionespublicasComponent},
+      { path: 'misParticipaciones', component:MisParticipacionesComponent},
+      { path: 'consultarResultados', component:ResultadosComponent},
+      { path: 'resultadosPublicos', component:EleccionespublicasComponent},
       { path: 'admin', component:AdminPanelComponent},
       { path: 'authentication', loadChildren: () => import('./modules/authentication/authentication.module').then(m => m.AuthenticationModule) },
       { path: 'administracion', loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuard] },

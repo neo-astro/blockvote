@@ -42,8 +42,8 @@ body {
     } 
     .btnDelete:hover{
         color: #ffffff !important;
-        margin-top: -3px !important;
         background-color: #f70909c8 !important;
+        transition: 0.2s  linear;
     }  
 
 

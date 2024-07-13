@@ -800,16 +800,39 @@ restoreValidatorsToCandidatos() {
   });
 }
 
+combinarFechaYHora(fecha: Date, hora: Date): Date {
+  // Extraer los componentes de fecha
+  const año = fecha.getFullYear();
+  const mes = fecha.getMonth();
+  const día = fecha.getDate();
 
+  // Extraer los componentes de hora
+  const horas = hora.getHours();
+  const minutos = hora.getMinutes();
+  const segundos = hora.getSeconds();
+  const milisegundos = hora.getMilliseconds();
+
+  // Crear una nueva instancia de Date combinando fecha y hora
+  const fechaCombinada = new Date(año, mes, día, horas, minutos, segundos, milisegundos);
+  return fechaCombinada;
+}
 sendProceso(){
   
   if(this.votantesForm.valid){
     
+
+      let horaInicio = this.inputHoraInicio.nativeElement.value
+      let horaFin = this.inputHoraFin.nativeElement.value
+    
+      let fechaHoraInicio = this.combinarFechaYHora(this.tituloForm.get('fechaInicio').value, horaInicio) 
+      let fechaHoraFin = this.combinarFechaYHora(this.tituloForm.get('fechaFin').value, horaFin) 
+     alert(fechaHoraInicio)
+     alert(fechaHoraFin)
       const formData = new FormData();
     
       // Agregar datos del título al FormData
-      formData.append('Titulo', this.tituloForm.get('tituloName').value);
-      formData.append('FechaInicio', this.tituloForm.get('fechaInicio').value);
+      formData.append('Titulo', `${fechaHoraFin}`);
+      formData.append('FechaInicio', `${fechaHoraInicio}` );
       formData.append('FechaFin', this.tituloForm.get('fechaFin').value);
       formData.append('ResultadoPublico', this.tituloForm.get('resultadoPublico').value);
       console.log(this.listCandidatosToJson)

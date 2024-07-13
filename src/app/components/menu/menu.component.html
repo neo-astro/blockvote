@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg py-1   color-primary m-0 p-0">
+<nav class="navbar navbar-expand-lg py-1   color-primary m-0 p-0" style="display: fixed;">
   <div class="container-fluid">
 
     <a class="navbar-brand d-flex align-content-center justify-content-center" [routerLink]="['/home']" routerLinkActive="active"
@@ -29,7 +29,7 @@
 
 
 
-<nav class="navbar navbar-expand-lg py-1 container-fluid  fixed-top color-primary" id="navbar" #navbar >
+<nav class="navbar navbar-expand-lg py-1 container-fluid color-primary fixed-top" >
   <div class="container-fluid ">
 
       <div class="navbar-nav col-3" style="margin-left: 10px;">
@@ -86,7 +86,7 @@
 
         <li class="nav-item dropdown ">
           <a class="color-white nav-link dropdown-toggle"  id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Consultas
+            Resultados
           </a>
           <div class="dropdown-menu position-absolute" style="min-width: 450px;margin-left: -150px;"   aria-labelledby="navbarDropdownMenuLink">
             <div class="row mt-2 rounded-1" style="border-radius: 17px;
@@ -97,12 +97,13 @@
               <div class="col-5 m-auto p-0">
                 
                   <img  class="m-0 p-0 m-auto" src="../../assets/img/image1.png" width="200px" height="175px" alt="">
-                
+
               </div>              
 
               <div class="col-7 m-auto ">
-                <a class="c-primary dropdown-item text-center" [routerLink]="['resultadoParticipaciones']">Tus participaciones</a>
-                <a class="c-primary dropdown-item text-center" [routerLink]="['eleccionesPublicas']">Elecciones publicos</a>
+                <a *ngIf="isUserAuthenticated" class="c-primary dropdown-item text-center" [routerLink]="['misParticipaciones']" >Mis participaciones</a>
+                <a class="c-primary dropdown-item text-center" [routerLink]="['resultadosPublicos']">Resultados publicos</a>
+                <a class="c-primary dropdown-item text-center" [routerLink]="['consultarResultados']">Consultar resultados</a>
               </div>
 
             </div>
